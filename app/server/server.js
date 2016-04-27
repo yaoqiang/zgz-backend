@@ -1,5 +1,9 @@
 import Express from 'express';
 import path from 'path';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import bodyParser from 'body-parser';
+import methodOverride from 'method-override';
 
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
@@ -13,6 +17,8 @@ import configureStore from 'store/configureStore';
 import createRoutes from 'routes/index';
 
 import { Provider } from 'react-redux';
+
+import apiRoutes from './routes';
 
 let server = new Express();
 let port = process.env.PORT || 4000;
@@ -41,20 +47,22 @@ server.use(Express.static(path.join(__dirname, '../..', 'dist')));
 server.set('views', path.join(__dirname, 'views'));
 server.set('view engine', 'ejs');
 
-// mock apis
-server.get('/api/questions', (req, res)=> {
-  let { questions } = require('./mock_api');
-  res.send(questions);
-});
 
-server.get('/api/users/:id', (req, res)=> {
-  let { getUser } = require('./mock_api')
-  res.send(getUser(req.params.id))
-})
-server.get('/api/questions/:id', (req, res)=> {
-  let { getQuestion } = require('./mock_api')
-  res.send(getQuestion(req.params.id))
-})
+server.use(cookieParser());
+server.use(bodyParser.json());
+// parse request bodies (req.body)
+server.use(bodyParser.urlencoded({ extended: true }));
+// allow overriding methods in query (?_method=put)
+server.use(methodOverride('_method'));
+server.use(session({
+secret: 'zgz-backend!!!',
+resave: false,
+saveUninitialized: false,
+cookie: { maxAge: 60000 }
+}));
+
+// apis
+server.use('/api', apiRoutes);
 
 server.get('*', (req, res, next)=> {
   let history = useQueries(createMemoryHistory)();
@@ -118,7 +126,7 @@ server.get('*', (req, res, next)=> {
 });
 
 server.use((err, req, res, next)=> {
-  console.log(err.stack);
+  console.log(err);
   // TODO report error here or do some further handlings
   res.status(500).send("something went wrong...")
 })

@@ -3,10 +3,9 @@ import * as ActionType from 'actions/auth';
 import _ from 'lodash'
 
 let defaultState = {
-  auth: {}
 };
 
-export default function reducer(state = defaultState, action = {}) {
+export default function(state = defaultState, action = {}) {
   let cloned
   switch(action.type) {
     case ActionType.LOGIN: 

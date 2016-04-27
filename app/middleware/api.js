@@ -33,7 +33,9 @@ export default ({ dispatch, getState }) => next => action => {
 
   overall.finally(()=> {
     deferred.resolve()
-  }).catch(()=> {})
+  }).catch((e)=> {
+    console.log(e)
+  })
 
   return deferred.promise
 }
@@ -43,8 +45,8 @@ function createRequestPromise (apiActionCreator, next, getState, dispatch) {
     let apiAction = apiActionCreator(prevBody)
     let deferred = Promise.defer()
     let params = extractParams(apiAction[CALL_API])
-
     superAgent[params.method](params.url)
+      .set('Content-Type', 'application/json')
       .send(params.data)
       .end((err, res)=> {
         if (err) {
@@ -78,7 +80,7 @@ function createRequestPromise (apiActionCreator, next, getState, dispatch) {
 }
 
 function extractParams (callApi) {
-  let { method, path, successType, errorType, afterSuccess, afterError } = callApi
+  let { method, path, data, successType, errorType, afterSuccess, afterError } = callApi
   let url = `${config.API_BASE_URL}${path}`
 
   return {

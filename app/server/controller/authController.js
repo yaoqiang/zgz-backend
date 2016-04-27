@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-  console.log("login...");
+  console.log("login...", req.body);
   const { username, password } = req.body
   console.log(username, password);
 
