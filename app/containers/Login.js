@@ -10,8 +10,6 @@ import * as AuthActions from '../actions/auth';
 import Helmet from 'react-helmet';
 
 class Login extends Component {
-    
-  
 
   constructor(props) {
     super(props);
@@ -37,7 +35,8 @@ class Login extends Component {
                   style={{textAlign: 'left'}}
                   ref="login"
                   hintText="Enter your login"
-                  floatingLabelText="Login"/><br/>
+                  floatingLabelText="Login"
+                  errorText="{this.props.auth.error}"/><br/>
               <TextField
                   ref="password"
                   hintText="Enter your password"
