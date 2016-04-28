@@ -12,10 +12,10 @@ import Dashboard from 'containers/Dashboard';
 export default function(history) {
   
   return (
-    <Router>
-        <Route path="/" component={App} >
-        </Route>
-    </Router>
+    <Router history={history}>
+	     <Route path="/" component={App} >
+	        <IndexRoute component={Dashboard} />
+		  </Route>
+	   </Router>
   );
 };
-

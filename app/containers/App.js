@@ -8,8 +8,9 @@ class App extends Component {
   render() {
     const auth = this.props.auth;
     return (
-      <div>
-        {this.props.children}
+      <div>App
+      	{!auth.logged && <Login />}
+        {auth.logged && this.props.children}
       </div>
     );
   }
