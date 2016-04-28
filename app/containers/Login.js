@@ -25,8 +25,6 @@ class Login extends Component {
   }
 
   render() {
-    console.log(this.props);
-
     return (
       <div>
         <form style={{textAlign: 'center'}} className="login" onSubmit={this.onSubmit}>
@@ -36,12 +34,13 @@ class Login extends Component {
                   ref="login"
                   hintText="Enter your login"
                   floatingLabelText="Login"
-                  errorText="{this.props.auth.error}"/><br/>
+                  errorText={this.props.auth.err}/><br/>
               <TextField
                   ref="password"
                   hintText="Enter your password"
                   floatingLabelText="Password"
-                  type="password" /><br/>
+                  type="password" 
+                  errorText={this.props.auth.err}/><br/>
               <RaisedButton label="Login" secondary onClick={this.onSubmit} onTouchTap={this.onSubmit} />
           </form>
         </div>
@@ -59,9 +58,7 @@ Login.propTypes = {
 
 
 function mapStateToProps (state) {
-  return {
-      
-  }
+  return state
 }
 
 function mapDispatchToProps(dispatch) {

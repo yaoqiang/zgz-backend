@@ -1,38 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import cookie from 'react-cookie';
 
 import Login from 'containers/Login';
 import Dashboard from 'containers/Dashboard';
 
 class App extends Component {
   render() {
-    const isLogin = requireAuth();
-    console.log(isLogin);
+    const auth = this.props.auth;
     return (
       <div>
-        {isLogin &&
-          <Dashboard />
-        }
-        
-        {!isLogin &&
-          <Login />
-        }
-       
+        {this.props.children}
       </div>
     );
   }
 }
 
-function requireAuth() {
-  if (cookie.load('X-TOKEN')) {
-    return true;
-  }
-  return false;
-}
+
 
 function mapStateToProps(state) {
-  return {};
+  return {auth: state.auth};
 }
 
 export default connect(mapStateToProps)(App);

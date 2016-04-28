@@ -15,7 +15,7 @@ router.post("/login", (req, res) => {
   console.log(username, password);
 
   if (username === 'admin' && password === '101010pp') {
-    res.send({token: username});
+    res.send({token: username, logged: true});
     return;
   }
   res.send({err: 'invalid username/password'});

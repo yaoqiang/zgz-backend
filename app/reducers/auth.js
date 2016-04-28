@@ -12,9 +12,9 @@ export default function(state = defaultState, action = {}) {
       cloned = _.clone(state)
       return _.merge(cloned, {LOGIN_LOADING: true});
     case ActionType.LOGIN_SUCCESS:
-        console.log('----->', action.response)
-      cookie.save('X-TOKEN', action.response.token);
       cloned = _.clone(state)
+    
+      if (action.response.token) cookie.save('X-TOKEN', action.response.token);
       return _.merge(cloned, action.response)
 
     case ActionType.LOGIN_FAIL:
