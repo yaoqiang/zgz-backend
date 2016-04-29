@@ -14,11 +14,11 @@ router.post("/login", (req, res) => {
   const { username, password } = req.body
   console.log(username, password);
 
-  if (username === 'admin' && password === '101010pp') {
-    res.send({token: username, logged: true});
+  if (username === 'admin' && password === 'admin') {
+    res.send({token: username, loggedIn: true, user: {username: 'admin'}});
     return;
   }
-  res.send({err: 'invalid username/password'});
+  res.send({err: '用户名密码错误'});
 });
 
 router.post("/register", (req, res) => {
