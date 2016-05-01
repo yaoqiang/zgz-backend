@@ -1,4 +1,4 @@
-import { CALL_API, CHAIN_API } from 'middleware/api'
+import { CALL_API, CHAIN_API, UI } from 'middleware/api'
 
 export const USER_LIST = Symbol('USER_LIST')
 export const USER_LIST_SUCCESS = Symbol('USER_LIST_SUCCESS')
@@ -27,6 +27,11 @@ export const USER_LOG_USER_RECORD_FAIL = Symbol('USER_LOG_USER_RECORD_FAIL')
 export const USER_LOG_PAYMENT_RECORD = Symbol('USER_LOG_PAYMENT_RECORD')
 export const USER_LOG_PAYMENT_RECORD_SUCCESS = Symbol('USER_LOG_PAYMENT_RECORD_SUCCESS')
 export const USER_LOG_PAYMENT_RECORD_FAIL = Symbol('USER_LOG_PAYMENT_RECORD_FAIL')
+
+
+//UI actions
+export const UI_USER_DETAIL_DIALOG_CLOSE = Symbol('UI_USER_DETAIL_DIALOG_CLOSE')
+
 
 
 export function list(uid, mobile, pageIndex) {
@@ -105,6 +110,16 @@ export function getLogPaymentRecord(uid) {
       path: '/api/user/getLogPaymentRecord?uid=',
       successType: USER_LOG_PAYMENT_RECORD_SUCCESS,
       errorType: USER_LOG_PAYMENT_RECORD_FAIL
+    }
+  }
+}
+
+
+//UI actions
+export function closeUserDetailDialog() {
+  return {
+    [UI]: {
+      type: UI_USER_DETAIL_DIALOG_CLOSE
     }
   }
 }

@@ -6,7 +6,6 @@ export const LOGIN_FAIL = Symbol('LOGIN_FAIL')
 export const LOGIN_OUT = Symbol('LOGIN_OUT')
 
 export function login(username, password) {
-    console.log('action login...', username, password)
   return {
     [CALL_API]: {
       method: 'post',

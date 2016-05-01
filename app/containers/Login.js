@@ -14,6 +14,7 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onKeyPress = this.onKeyPress.bind(this);
   }
 
   onSubmit(event) {
@@ -22,6 +23,12 @@ class Login extends Component {
     const password = this.refs.password.getValue();
     this.props.login(login, password);
     console.log(`Login: ${login} Password: ${password}`);
+  }
+  
+  onKeyPress(event) {
+    if(event.keyCode === 13) {
+      this.onSubmit(event)
+    }
   }
 
   render() {
@@ -40,6 +47,7 @@ class Login extends Component {
                   hintText="Enter your password"
                   floatingLabelText="Password"
                   type="password" 
+                  onKeyDown={this.onKeyPress} 
                   errorText={this.props.auth.err}/><br/>
               <RaisedButton label="Login" secondary onClick={this.onSubmit} onTouchTap={this.onSubmit} />
           </form>

@@ -4,7 +4,7 @@ const settings = {
     
     secret: "zgz_session_secret",
     
-    pageSize: 20,
+    pageSize: 15,
     defaultPageIndex: 1
 }
 

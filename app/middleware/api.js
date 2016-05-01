@@ -5,6 +5,7 @@ import config from 'config'
 
 export const CALL_API = Symbol('CALL_API')
 export const CHAIN_API = Symbol('CHAIN_API')
+export const UI = Symbol('UI')
 
 export default ({ dispatch, getState }) => next => action => {
   if (action[CALL_API]) {
@@ -18,7 +19,11 @@ export default ({ dispatch, getState }) => next => action => {
   let deferred = Promise.defer()
 
   if (! action[CHAIN_API]) {
-    return next(action)
+    
+    if (action[UI]) {
+      return dispatch(action[UI]);
+    }
+    return next(action);
   }
 
   let promiseCreators = action[CHAIN_API].map((apiActionCreator)=> {

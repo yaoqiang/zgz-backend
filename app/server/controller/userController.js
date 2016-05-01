@@ -17,16 +17,22 @@ router.get("/list", (req, res) => {
   var query = {};
   const uid = req.query.uid;
   const mobile = req.query.mobile;
-  const pageIndex = req.query.pageIndex
-
-  const skip = ((pageIndex || settings.defaultPageIndex) - 1) * settings.pageSize;
-  if (uid && uid !== '') {
-    query._id = mongojs.ObjectId(uid);
+  const pageIndex = req.query.pageIndex || settings.defaultPageIndex
+  
+  const skip = (pageIndex - 1) * settings.pageSize;
+  try {
+    if (uid && uid !== '') {
+      query._id = mongojs.ObjectId(uid);
+    }
+  } catch (e) {
+    query._id = '';
   }
+  
+  
   if (mobile && mobile !== '') {
     query.mobile = mobile;
   }
-
+  
   new Promise(function (resolve, reject) {
     db.user.find(query).limit(settings.pageSize).skip(skip, function (err, docs) {
       if (err) {
@@ -53,11 +59,11 @@ router.get("/list", (req, res) => {
           });
         });
         Promise.all(userListPromise).then(function (result) {
-          res.send({ code: 200, userList: result });
+          res.send({ code: 200, userList: result, pageIndex: pageIndex});
         })
         return;
       }
-      res.send({ code: 200, userList: [] });
+      res.send({ code: 200, userList: [], pageIndex: pageIndex });
     }, function (err) {
       if (err) {
         res.send({ code: 500 });
