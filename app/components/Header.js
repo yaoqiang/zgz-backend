@@ -1,24 +1,14 @@
 import React, {Component} from 'react';
-import LeftNav from 'material-ui/lib/left-nav';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
-import AppBar from 'material-ui/lib/app-bar';
-import RaisedButton from 'material-ui/lib/raised-button';
-import DropDownMenu from 'material-ui/lib/DropDownMenu';
-import MenuItem from 'material-ui/lib/menus/menu-item';
-import IconButton from 'material-ui/lib/icon-button';
-import FlatButton from 'material-ui/lib/flat-button';
-import FontIcon from 'material-ui/lib/font-icon';
-import Colors from 'material-ui/lib/styles/colors';
-import Divider from 'material-ui/lib/divider';
-import ArrowDropRight from 'material-ui/lib/svg-icons/navigation-arrow-drop-right';
+
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+
+import {LinkContainer} from 'react-router-bootstrap';
 
 
 import Helmet from 'react-helmet';
-import ThemeManager from 'material-ui/lib/styles/theme-manager';
-import PersonalTheme from '../themes/personal';
 import { bindActionCreators } from 'redux';
-
 
 
 import * as AuthActions from '../actions/auth';
@@ -28,7 +18,6 @@ class Header extends Component {
 
     constructor(props) {
         super(props);
-        this.handleToggle = this.handleToggle.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
     }
 
@@ -36,78 +25,73 @@ class Header extends Component {
         this.props.logout();
     }
 
-    handleToggle() {
-        console.log('blabla');
+    handleMenuSelect(event, eventKey) {
+        event.preventDefault()
+        console.log(eventKey);
     }
 
     render() {
-        const iconStyles = {
-            marginRight: 24,
-        };
-        const {user, leftNavState, gameMenu, logout} = this.props;
 
-        let menuItems = [
-            { payload: '0', text: 'Mon - Sun' },
-            { payload: '1', text: 'Mon - Sat' },
-            { payload: '2', text: 'Mon - Fri' },
-            { payload: '3', text: 'Mon - Fri / Mon - Thu' },
-        ];
+        const {user, logout} = this.props;
 
         return (
             <div>
-                <AppBar
-                    title={<span>eRun</span>}
-                    iconElementLeft={<IconButton><FontIcon
-                        className="muidocs-icon-action-home"
-                        style={iconStyles}
-                        /></IconButton>}
-                    iconElementRight={<FlatButton label="退出" />}
-                    />
-                <LeftNav style={{ paddingTop: '70px' }} open={leftNavState}>
-                    <Link to="/"><MenuItem>首页</MenuItem></Link>
-                    <Link to="/"><MenuItem>玩家管理</MenuItem></Link>
-                    <Link to="/"><MenuItem>订单管理</MenuItem></Link>
-                    <Link to="/"><MenuItem>兑换管理</MenuItem></Link>
-                    <Link to="/"><MenuItem>活动管理</MenuItem></Link>
-
-                    <Link to="/"><MenuItem>统计分析</MenuItem></Link>
-
-                    <MenuItem
-                        primaryText="Custom: 1.2"
-                        checked={true}
-                        rightIcon={<ArrowDropRight />}
-                        menuItems={[
-                            <MenuItem
-                                primaryText="Show"
-                                rightIcon={<ArrowDropRight />}
-                                menuItems={[
-                                    <MenuItem primaryText="Show Level 2" />,
-                                    <MenuItem primaryText="Grid lines" checked={true} />,
-                                    <MenuItem primaryText="Page breaks" insetChildren={true} />,
-                                    <MenuItem primaryText="Rules" checked={true} />,
-                                ]}
-                                />,
-                            <MenuItem primaryText="Grid lines" checked={true} />,
-                            <MenuItem primaryText="Page breaks" insetChildren={true} />,
-                            <MenuItem primaryText="Rules" checked={true} />,
-                        ]}
-                        />
-
-                </LeftNav>
+                <Navbar inverse>
+                    <Navbar.Header>
+                        <Navbar.Brand>
+                            <a href="#">eRun</a>
+                        </Navbar.Brand>
+                        <Navbar.Toggle />
+                    </Navbar.Header>
+                    <Navbar.Collapse>
+                        <Nav>
+                            <LinkContainer to="/user">
+                                <NavItem eventKey={1} href="#">玩家管理</NavItem>
+                            </LinkContainer>
+                            <LinkContainer to="/order">
+                                <NavItem eventKey={2} href="#">订单管理</NavItem>
+                            </LinkContainer>
+                            <NavDropdown eventKey={3} title="兑换管理" id="basic-nav-dropdown-exchange">
+                                <MenuItem eventKey={3.1}>兑换列表</MenuItem>
+                                <MenuItem eventKey={3.2}>兑换记录</MenuItem>
+                            </NavDropdown>
+                            <NavItem eventKey={4} href="#">活动管理</NavItem>
+                            <NavDropdown eventKey={5} title="游戏管理" id="basic-nav-dropdown-game">
+                                <MenuItem eventKey={5.1}>游戏公告发送</MenuItem>
+                                <MenuItem eventKey={5.2}>系统邮件维护</MenuItem>
+                                <MenuItem divider />
+                                <MenuItem eventKey={5.3}>苹果审核开关</MenuItem>
+                                <MenuItem eventKey={5.4}>游戏版本设置</MenuItem>
+                            </NavDropdown>
+                            <NavDropdown eventKey={6} title="统计分析" id="basic-nav-dropdown-analysis">
+                                <MenuItem eventKey={6.1}>活跃用户</MenuItem>
+                                <MenuItem eventKey={6.2}>新增用户</MenuItem>
+                                <MenuItem divider />
+                                <MenuItem eventKey={6.3}>留存率</MenuItem>
+                            </NavDropdown>
+                            <NavDropdown eventKey={7} title="系统管理" id="basic-nav-dropdown-system">
+                                <MenuItem eventKey={7.1}>账号管理</MenuItem>
+                            </NavDropdown>
+                        </Nav>
+                        <Nav pullRight>
+                            <NavDropdown eventKey={20} title="个人中心" pullRight id="basic-nav-dropdown-profile">
+                                <MenuItem eventKey={20.1}>修改密码</MenuItem>
+                                <MenuItem eventKey={20.2}>退出</MenuItem>
+                            </NavDropdown>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Navbar>
             </div>
         );
     }
 }
 
-Header.getChildContext = {
-    muiTheme: ThemeManager.getMuiTheme(PersonalTheme)
-};
 
 function mapStateToProps(state) {
     return {
         user: state.auth.user,
         logout: state.auth.logout,
-        leftNavState: true
+        menu: {}
     };
 }
 

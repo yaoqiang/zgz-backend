@@ -5,20 +5,24 @@ import Header from 'components/Header';
 import Login from 'containers/Login';
 import Dashboard from 'containers/Dashboard';
 
-import injectTapEventPlugin from 'react-tap-event-plugin';
+var injectTapEventPlugin = require("react-tap-event-plugin");
 injectTapEventPlugin();
-
 
 
 class App extends Component {
   render() {
     const auth = this.props.auth;
+    console.log('auth = ', auth);
     return (
       <div>
       	{!auth.loggedIn && <Login />}
         {auth.loggedIn && 
           <Header />
         }
+        {auth.loggedIn && 
+          this.props.children
+        }
+        
       </div>
     );
   }
