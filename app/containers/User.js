@@ -8,6 +8,9 @@ import RaisedButton from 'material-ui/lib/raised-button';
 import DropDownMenu from 'material-ui/lib/DropDownMenu';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 
+import Dialog from 'material-ui/lib/dialog';
+import FlatButton from 'material-ui/lib/flat-button';
+
 import _ from 'lodash';
 
 import { Breadcrumb, Form, FormGroup, ControlLabel, FormControl, Button, Table, Pager, PageItem } from 'react-bootstrap';
@@ -23,6 +26,8 @@ const style = {
     margin: 6,
 };
 
+
+
 class User extends Component {
     constructor(props) {
         super(props);
@@ -31,7 +36,7 @@ class User extends Component {
         this.onDetail = this.onDetail.bind(this);
         this.onDetailClose = this.onDetailClose.bind(this);
         this.onRecharge = this.onRecharge.bind(this);
-        
+
 
     }
 
@@ -63,18 +68,21 @@ class User extends Component {
 
     onRecharge(uid) {
         console.log('onRecharge -> ', uid);
-        
+
         this.props.getShopList();
     }
 
     onGrant(uid) {
         console.log('onGrant -> ', uid);
+        this.props.openGrantBoxDialog();
     }
 
     onDetailClose() {
         console.log('onDetailClose -> ');
         this.props.closeUserDetailDialog();
     }
+    
+   
 
     render() {
 
@@ -143,20 +151,23 @@ class User extends Component {
                     {' '}
                     <PageItem href="#">下一页</PageItem>
                 </Pager>
+                
+                
 
-                <UserDetail open={userDetail != null} userDetail={userDetail || {}}
+                <UserDetail open={userDetail != null}
                     handleClose={this.onDetailClose}
                     onRecharge={this.onRecharge}
                     onGrant={this.onGrant}
-                    shopList={this.props.shopList}
-                    closeShopBoxDialog={this.props.closeShopBoxDialog} />
+                    {...this.props} />
+
+                    
+                
             </div>
         );
     }
 }
 
 User.propTypes = {
-    search: PropTypes.func,
     userList: PropTypes.array
 };
 
@@ -165,7 +176,12 @@ function mapStateToProps(state) {
         pageIndex: state.user.pageIndex || 1,
         userList: state.user.userList,
         userDetail: state.user.user,
-        shopList: state.user.shopList
+        shopList: state.user.shopList,
+        rechargeProductId: state.user.rechargeProductId,
+        rechargeState: state.user.rechargeState,
+        grantBoxState: state.user.grantBoxState,
+        grantAlertState: state.user.grantAlertState,
+        itemList: state.user.itemList
     };
 }
 

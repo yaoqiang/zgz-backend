@@ -28,8 +28,9 @@ router.get("/getShopList", (req, res) => {
 
 router.get("/getItemList", (req, res) => {
   console.log("getItemList...");
-  
-  res.send(200);
+  gameService.getItemList(function (result) {
+    res.send({itemList: result.itemList, code: result.code});
+  })
 });
 
 router.post("/sendBBS", (req, res) => {

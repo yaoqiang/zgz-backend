@@ -34,9 +34,23 @@ export default function (state = defaultState, action = {}) {
             cloned = _.clone(state)
             return _.merge(cloned, action.response.code)
 
+        case ActionType.USER_RECHARGE_SUCCESS:
+            cloned = _.clone(state)
+            if (action.response.code == 200) {
+                cloned.rechargeState = 200;
+            }
+            else {
+                cloned.rechargeState = 500;
+            }
+            return cloned;
         case ActionType.SHOP_LIST_SUCCESS:
             cloned = _.clone(state)
             cloned.shopList = action.response.shopList;
+            return cloned;
+            
+        case ActionType.ITEM_LIST_SUCCESS:
+            cloned = _.clone(state)
+            cloned.itemList = action.response.itemList;
             return cloned;
 
         case ActionType.UI_USER_DETAIL_DIALOG_CLOSE:
@@ -48,7 +62,29 @@ export default function (state = defaultState, action = {}) {
             cloned = _.clone(state)
             cloned.shopList = null;
             return cloned;
-
+            
+        case ActionType.UI_RECHARGE_ALERT_CLOSE:
+            cloned = _.clone(state)
+            cloned.rechargeState = null;
+            return cloned;
+        case ActionType.UI_GRANT_BOX_DIALOG_OPEN:
+            cloned = _.clone(state)
+            cloned.grantBoxState = 'OPEN';
+            return cloned;
+        case ActionType.UI_GRANT_BOX_DIALOG_CLOSE:
+            cloned = _.clone(state)
+            cloned.grantBoxState = null;
+            return cloned;
+            
+        case ActionType.UI_GRANT_ALERT_CLOSE:
+            cloned = _.clone(state)
+            cloned.grantAlertState = null;
+            return cloned;
+            
+        case ActionType.UI_RECHARGE_PRODUCT_SELECT:
+            cloned = _.clone(state)
+            cloned.rechargeProductId = action.data.rechargeProductId;
+            return cloned;
 
 
         default:

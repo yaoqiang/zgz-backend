@@ -12,7 +12,7 @@ const gameService = {
             .get(apiSuffix + '/getOnlineUserTotal')
             .set('Content-Type', 'application/json')
             .end((err, res) => {
-                console.log('getOnlineUserTotal callback -> ', res);
+                console.log('getOnlineUserTotal callback -> ', res.body);
                 cb(res.body);
             })
     },
@@ -29,13 +29,17 @@ const gameService = {
     },
 
     payment4OSS: function (data, cb) {
+        console.log('payment --- -- - - - ', data);
         request
             .post(apiSuffix + '/payment4OSS')
             .set('Content-Type', 'application/json')
             .send(data)
             .end((err, res) => {
-                console.log('payment4OSS callback -> ', res);
-                cb(res.body);
+                console.log('payment4OSS callback -> ', err);
+                if (err) {
+                    return cb({code: 500})
+                }
+                cb({code: 200});
             })
     },
 
@@ -46,7 +50,10 @@ const gameService = {
             .set('Content-Type', 'application/json')
             .send(data)
             .end((err, res) => {
-                console.log('addGold callback -> ', res);
+                console.log('addGold callback -> ', res.body);
+                if (err || res.status !== 200) {
+                    return cb({code: 500});
+                }
                 cb(res.body);
             })
     },
@@ -57,7 +64,10 @@ const gameService = {
             .set('Content-Type', 'application/json')
             .send(data)
             .end((err, res) => {
-                console.log('addItems callback -> ', res);
+                console.log('addItems callback -> ', res.body);
+                if (err || res.status !== 200) {
+                    return cb({code: 500});
+                }
                 cb(res.body);
             })
     },
@@ -68,7 +78,10 @@ const gameService = {
             .set('Content-Type', 'application/json')
             .send(data)
             .end((err, res) => {
-                console.log('addFragment callback -> ', res);
+                console.log('addFragment callback -> ', res.body);
+               if (err || res.status !== 200) {
+                    return cb({code: 500});
+                }
                 cb(res.body);
             })
     },
@@ -87,7 +100,6 @@ const gameService = {
             .get(apiSuffix + '/getItemList')
             .set('Content-Type', 'application/json')
             .end((err, res) => {
-                console.log('getItemList callback -> ', res);
                 cb(res.body);
             })
     },

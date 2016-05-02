@@ -32,12 +32,30 @@ export const USER_LOG_PAYMENT_RECORD_FAIL = Symbol('USER_LOG_PAYMENT_RECORD_FAIL
 export const SHOP_LIST_SUCCESS = Symbol('SHOP_LIST_SUCCESS')
 export const SHOP_LIST_FAIL = Symbol('SHOP_LIST_FAIL')
 
+export const ITEM_LIST_SUCCESS = Symbol('ITEM_LIST_SUCCESS')
+export const ITEM_LIST_FAIL = Symbol('ITEM_LIST_FAIL')
 
-
+//------------
 //UI actions
-export const UI_USER_DETAIL_DIALOG_CLOSE = Symbol('UI_USER_DETAIL_DIALOG_CLOSE')
-export const UI_SHOP_BOX_DIALOG_CLOSE = Symbol('UI_SHOP_BOX_DIALOG_CLOSE')
+//------------
 
+//关闭用户详情窗口
+export const UI_USER_DETAIL_DIALOG_CLOSE = Symbol('UI_USER_DETAIL_DIALOG_CLOSE')
+//关闭用户充值窗口
+export const UI_SHOP_BOX_DIALOG_CLOSE = Symbol('UI_SHOP_BOX_DIALOG_CLOSE')
+//关闭充值结果窗口
+export const UI_RECHARGE_ALERT_CLOSE = Symbol('UI_RECHARGE_ALERT_CLOSE')
+//选中充值商品
+export const UI_RECHARGE_PRODUCT_SELECT = Symbol('UI_RECHARGE_PRODUCT_SELECT')
+//
+export const UI_RECHARGE_RECEIPT_UPLOAD = Symbol('UI_RECHARGE_RECEIPT_UPLOAD')
+
+//关闭用户奖励窗口
+export const UI_GRANT_BOX_DIALOG_CLOSE = Symbol('UI_GRANT_BOX_DIALOG_CLOSE')
+//打开用户奖励窗口
+export const UI_GRANT_BOX_DIALOG_OPEN = Symbol('UI_GRANT_BOX_DIALOG_OPEN')
+//关闭奖励结果窗口
+export const UI_GRANT_ALERT_CLOSE = Symbol('UI_GRANT_ALERT_CLOSE')
 
 
 
@@ -133,6 +151,17 @@ export function getShopList() {
   }
 }
 
+export function getItemList() {
+  return {
+    [CALL_API]: {
+      method: 'get',
+      path: '/api/game/getItemList',
+      successType: ITEM_LIST_SUCCESS,
+      errorType: ITEM_LIST_FAIL
+    }
+  }
+}
+
 
 //UI actions
 export function closeUserDetailDialog() {
@@ -151,4 +180,46 @@ export function closeShopBoxDialog() {
   }
 }
 
+export function handleRechargeAlertClose() {
+  return {
+    [UI]: {
+      type: UI_RECHARGE_ALERT_CLOSE
+    }
+  }
+}
 
+
+export function closeGrantBoxDialog() {
+  return {
+    [UI]: {
+      type: UI_GRANT_BOX_DIALOG_CLOSE
+    }
+  }
+}
+
+export function openGrantBoxDialog() {
+  return {
+    [UI]: {
+      type: UI_GRANT_BOX_DIALOG_OPEN
+    }
+  }
+}
+
+
+export function handleGrantAlertClose() {
+  return {
+    [UI]: {
+      type: UI_GRANT_ALERT_CLOSE
+    }
+  }
+}
+
+
+export function selectProduct(rechargeProductId) {
+  return {
+    [UI]: {
+      type: UI_RECHARGE_PRODUCT_SELECT,
+      data: {rechargeProductId: rechargeProductId}
+    }
+  }
+}

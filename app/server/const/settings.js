@@ -1,6 +1,7 @@
 const settings = {
     mongodbUrl: 'mongodb://localhost:27017/zgz',
     gameApiUrl: 'http://101.201.154.38:1337/api/game',
+    // gameApiUrlDev: 'http://101.200.128.237:1337/api/game',
     gameApiUrlDev: 'http://127.0.0.1:1337/api/game',
     secret: "zgz_session_secret",
     

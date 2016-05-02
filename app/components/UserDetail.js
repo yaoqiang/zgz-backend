@@ -13,6 +13,7 @@ import _ from 'lodash';
 import gameConstants from '../config/gameConstants';
 
 import ShopBox from './ShopBox';
+import GrantBox from './GrantBox';
 
 export default class UserDetail extends React.Component {
     constructor(props) {
@@ -28,9 +29,10 @@ export default class UserDetail extends React.Component {
     };
 
     render() {
-        const { open, userDetail, shopList } = this.props;
+        const { open, shopList } = this.props;
 
-        console.log('userDetail - ', userDetail, this.props)
+        const userDetail = this.props.userDetail || {};
+
         const actions = [
             <FlatButton
                 label="关闭"
@@ -47,6 +49,7 @@ export default class UserDetail extends React.Component {
                     modal={false}
                     open={open}
                     onRequestClose={this.props.handleClose}
+                    autoScrollBodyContent={true}
                     >
                     <Card>
                         <CardHeader
@@ -84,7 +87,18 @@ export default class UserDetail extends React.Component {
                     </Card>
                 </Dialog>
                 
-                {shopList && <ShopBox open shopList={shopList} handleClose={this.props.closeShopBoxDialog}/>}
+                {shopList && <ShopBox 
+                    open                
+                    uid={userDetail.uid}
+                    shopList={shopList} 
+                    {...this.props}/>
+                }
+                
+                {this.props.grantBoxState && <GrantBox 
+                    open                
+                    uid={userDetail.uid}
+                    {...this.props}/>
+                }
                 
             </div>
         );

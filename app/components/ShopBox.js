@@ -18,45 +18,60 @@ const styles = {
     radioButton: {
         marginBottom: 16,
     },
-    
+
 };
 const customContentStyle = {
-  width: '100%',
-  maxWidth: 'none',
+    width: '100%',
+    maxWidth: 'none',
 };
 
 export default class ShopBox extends React.Component {
     constructor(props) {
         super(props);
+        this.onProductSelected = this.onProductSelected.bind(this);
+        this.submitRecharge = this.submitRecharge.bind(this);
+        this.handleRechargeAlertClose = this.handleRechargeAlertClose.bind(this);
 
     }
 
-    onProductSelect(event, value) {
+    onProductSelected(event, value) {
 
-        console.log('#onProductSelect->', event, value, arguments)
+        this.props.selectProduct(value);
+
     }
 
-    onRechargeInfoFinished() {
+    submitRecharge() {
+        this.props.recharge({ uid: this.props.uid, productId: this.props.rechargeProductId })
+    }
 
+    handleRechargeAlertClose() {
+        this.props.handleRechargeAlertClose();
     }
 
     render() {
         const { open, shopList } = this.props;
 
-        console.log('shopList - ', this.props)
         const actions = [
-      <FlatButton
-        label="取消"
-        secondary={true}
-        onTouchTap={this.props.handleClose}
-      />,
-      <FlatButton
-        label="充值"
-        primary={true}
-        keyboardFocused={true}
-        onTouchTap={this.onRechargeInfoFinished}
-      />,
-    ];
+            <FlatButton
+                label="取消"
+                secondary={true}
+                onTouchTap={this.props.closeShopBoxDialog}
+                />,
+            <FlatButton
+                label="充值"
+                primary={true}
+                keyboardFocused={true}
+                onTouchTap={this.submitRecharge}
+                />,
+        ];
+        
+        const rechargeAlertActions = [
+            <FlatButton
+                label="关闭"
+                secondary={true}
+                onTouchTap={this.handleRechargeAlertClose}
+                />,
+        ];
 
         return (
             <div>
@@ -65,31 +80,41 @@ export default class ShopBox extends React.Component {
                     actions={actions}
                     modal={false}
                     open={open}
-                    onRequestClose={this.props.handleClose}
+                    onRequestClose={this.props.closeShopBoxDialog}
                     contentStyle={customContentStyle}
                     autoScrollBodyContent={true}
                     >
-                        
-                            <div style={{'OVERFLOWY': 'auto', 'OVERFLOWX': 'hidden'}}>
-                                <RadioButtonGroup name="product" ref="product" onChange={this.onProductSelected}>
-                                {
-                                    _.map(shopList, (product, index) => {
 
-                                        return <RadioButton
-                                            key={product.id}
-                                            value={product.id}
-                                            label={product.title + ' - ' + product.desc + ' - ' + '金币:'+ product.gold + ' - 价钱:' + product.amount}
-                                            style={styles.radioButton} />
+                    <div>
+                        <RadioButtonGroup name="product" ref="product" onChange={this.onProductSelected}>
+                            {
+                                _.map(shopList, (product, index) => {
 
-                                    })
-                                }
+                                    return <RadioButton
+                                        key={product.id}
+                                        value={product.id.toString() }
+                                        label={product.title + ' - ' + product.desc + ' - ' + '金币:' + product.gold + ' - 价钱:' + product.amount}
+                                        style={styles.radioButton} />
 
-                            </RadioButtonGroup>
-                            
-                            <br />
-                            {'上传附件(转账凭证): ......'}
-                            </div>
-                        
+                                })
+                            }
+
+                        </RadioButtonGroup>
+
+                        <br />
+                        {'上传附件(转账凭证): ......'}
+                    </div>
+
+                </Dialog>
+
+                <Dialog
+                    title="充值结果"
+                    actions={rechargeAlertActions}
+                    modal={false}
+                    open={this.props.rechargeState != null}
+                    onRequestClose={this.handleRechargeAlertClose}
+                    >
+                    {this.props.rechargeState == 200 ? '充值成功' : '充值失败'}
                 </Dialog>
             </div>
         );

@@ -5,6 +5,8 @@ import settings from '../const/settings';
 import mongojs from 'mongojs';
 import { db as db} from "../service/mongodb";
 
+import gameService from "../service/gameService";
+
 const router = express.Router();
 
 router.get("/", (req, res) => {
@@ -128,13 +130,58 @@ router.get("/getLogPaymentRecord", (req, res) => {
 });
 
 router.post("/recharge", (req, res) => {
-  console.log("recharge...");
-  res.send(200);
+  gameService.payment4OSS({uid: req.body.uid, productId: req.body.productId}, function (result) {
+    console.log('/recharge result -> ', result);
+    res.send(result);
+  })
 });
 
 router.post("/grant", (req, res) => {
   console.log("grant...");
-  res.send(200);
+  const gold = req.body.gold;
+  const fragment = req.body.fragment;
+  const items = req.body.items;
+  new Promise((resolve, reject) => {
+    if (gold) {
+      gameService.addGold(gold, (r1) => {
+        if (r1.code == 200) {
+          resolve()
+        }
+        else {
+          reject()
+        }
+      });
+    }
+    else {
+      resolve()
+    }
+  })
+  .then(() => {
+    if (fragment) {
+      gameService.addFragment(fragment, (r1) => {
+        if (r1.code == 200) {
+          resolve()
+        }
+        else {
+          reject()
+        }
+      });
+    }
+    else {
+      resolve()
+    }
+  })
+  .then(() => {
+    if (items) {
+      gameService.addItems(items, (r1) => {
+        res.send(r1);
+      });
+    }
+    else {
+      res.send(r1);
+    }
+  });
+  
 });
 
 
