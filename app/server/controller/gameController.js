@@ -1,5 +1,7 @@
 import express from "express"
 
+import gameService from "../service/gameService";
+
 const router = express.Router();
 
 router.get("/", (req, res) => {
@@ -16,13 +18,21 @@ router.post("/settings", (req, res) => {
 });
 
 
-router.get("/BBS", (req, res) => {
-  console.log("login...");
+router.get("/getShopList", (req, res) => {
+  console.log("getShopList...");
+  gameService.getShopList(function (result) {
+    res.send({shopList: result.shopList, code: result.code});
+    
+  })
+});
+
+router.get("/getItemList", (req, res) => {
+  console.log("getItemList...");
   
   res.send(200);
 });
 
-router.post("/BBS", (req, res) => {
+router.post("/sendBBS", (req, res) => {
   console.log("login...");
   
   res.send(200);

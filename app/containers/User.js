@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import Helmet from 'react-helmet';
 
 import TextField from 'material-ui/lib/text-field';
 import RaisedButton from 'material-ui/lib/raised-button';
@@ -19,7 +20,7 @@ import * as UserActions from '../actions/user';
 
 
 const style = {
-  margin: 6,
+    margin: 6,
 };
 
 class User extends Component {
@@ -29,7 +30,9 @@ class User extends Component {
         this.onSearch = this.onSearch.bind(this);
         this.onDetail = this.onDetail.bind(this);
         this.onDetailClose = this.onDetailClose.bind(this);
+        this.onRecharge = this.onRecharge.bind(this);
         
+
     }
 
     componentDidMount() {
@@ -39,12 +42,12 @@ class User extends Component {
     doSearch(uid, mobile, pageIndex) {
         this.props.list(uid, mobile, pageIndex);
     }
-    
+
     onKeyPress(event) {
-    if(event.keyCode === 13) {
-      this.onSearch()
+        if (event.keyCode === 13) {
+            this.onSearch()
+        }
     }
-  }
 
     onSearch() {
         const pageIndex = this.props.pageIndex;
@@ -52,32 +55,35 @@ class User extends Component {
         const mobile = this.refs.mobile.getValue();
         this.doSearch(uid, mobile, pageIndex);
     }
-    
+
     onDetail(uid) {
         console.log('onDetail -> ', uid);
         this.props.get(uid);
     }
-    
+
     onRecharge(uid) {
         console.log('onRecharge -> ', uid);
+        
+        this.props.getShopList();
     }
-    
+
     onGrant(uid) {
         console.log('onGrant -> ', uid);
     }
-    
+
     onDetailClose() {
         console.log('onDetailClose -> ');
         this.props.closeUserDetailDialog();
     }
 
     render() {
-        
+
         const { userList, userDetail } = this.props;
         const self = this;
 
         return (
             <div>
+                <Helmet title="玩家管理"/>
                 <Breadcrumb>
                     <Breadcrumb.Item active>
                         玩家管理
@@ -89,14 +95,14 @@ class User extends Component {
                     hintText="ID"
                     floatingLabelText="ID"
                     style={style}
-                    onKeyDown={this.onKeyPress} 
+                    onKeyDown={this.onKeyPress}
                     type=""/>
                 <TextField
                     ref="mobile"
                     hintText="手机号"
                     floatingLabelText="手机号"
                     style={style}
-                    onKeyDown={this.onKeyPress} 
+                    onKeyDown={this.onKeyPress}
                     type=""/>
                 <RaisedButton label="搜索" secondary style={style} onTouchTap={this.onSearch} />
 
@@ -124,8 +130,7 @@ class User extends Component {
                                     <td>{new Date(u.createdAt).toLocaleString() }</td>
                                     <td>{new Date(u.lastLoginAt).toLocaleString() }</td>
                                     <td>
-                                    <RaisedButton label="详情" default style={style} onTouchTap={self.onDetail.bind(this, u.uid)} />
-                                    
+                                        <RaisedButton label="详情" secondary style={style} onTouchTap={self.onDetail.bind(this, u.uid) } />
                                     </td>
                                 </tr>
                             })
@@ -138,11 +143,13 @@ class User extends Component {
                     {' '}
                     <PageItem href="#">下一页</PageItem>
                 </Pager>
-                
-                    <UserDetail open={userDetail != null} userDetail={userDetail || {}} 
+
+                <UserDetail open={userDetail != null} userDetail={userDetail || {}}
                     handleClose={this.onDetailClose}
                     onRecharge={this.onRecharge}
-                    onGrant={this.onGrant}/>
+                    onGrant={this.onGrant}
+                    shopList={this.props.shopList}
+                    closeShopBoxDialog={this.props.closeShopBoxDialog} />
             </div>
         );
     }
@@ -156,8 +163,9 @@ User.propTypes = {
 function mapStateToProps(state) {
     return {
         pageIndex: state.user.pageIndex || 1,
-        userList: state.user.list,
-        userDetail: state.user.user
+        userList: state.user.userList,
+        userDetail: state.user.user,
+        shopList: state.user.shopList
     };
 }
 

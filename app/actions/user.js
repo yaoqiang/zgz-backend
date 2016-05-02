@@ -29,8 +29,15 @@ export const USER_LOG_PAYMENT_RECORD_SUCCESS = Symbol('USER_LOG_PAYMENT_RECORD_S
 export const USER_LOG_PAYMENT_RECORD_FAIL = Symbol('USER_LOG_PAYMENT_RECORD_FAIL')
 
 
+export const SHOP_LIST_SUCCESS = Symbol('SHOP_LIST_SUCCESS')
+export const SHOP_LIST_FAIL = Symbol('SHOP_LIST_FAIL')
+
+
+
 //UI actions
 export const UI_USER_DETAIL_DIALOG_CLOSE = Symbol('UI_USER_DETAIL_DIALOG_CLOSE')
+export const UI_SHOP_BOX_DIALOG_CLOSE = Symbol('UI_SHOP_BOX_DIALOG_CLOSE')
+
 
 
 
@@ -115,6 +122,18 @@ export function getLogPaymentRecord(uid) {
 }
 
 
+export function getShopList() {
+  return {
+    [CALL_API]: {
+      method: 'get',
+      path: '/api/game/getShopList',
+      successType: SHOP_LIST_SUCCESS,
+      errorType: SHOP_LIST_FAIL
+    }
+  }
+}
+
+
 //UI actions
 export function closeUserDetailDialog() {
   return {
@@ -123,3 +142,13 @@ export function closeUserDetailDialog() {
     }
   }
 }
+
+export function closeShopBoxDialog() {
+  return {
+    [UI]: {
+      type: UI_SHOP_BOX_DIALOG_CLOSE
+    }
+  }
+}
+
+

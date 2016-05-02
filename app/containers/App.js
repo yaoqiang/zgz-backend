@@ -12,7 +12,6 @@ injectTapEventPlugin();
 class App extends Component {
   render() {
     const auth = this.props.auth;
-    console.log('auth = ', auth);
     return (
       <div>
       	{!auth.loggedIn && <Login />}
