@@ -48,8 +48,6 @@ server.set('views', path.join(__dirname, 'views'));
 server.set('view engine', 'ejs');
 
 
-
-
 server.use(cookieParser());
 server.use(bodyParser.json());
 // parse request bodies (req.body)
@@ -63,10 +61,20 @@ server.use(session({
   cookie: { maxAge: 60000 }
 }));
 
+server.all('*', (req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, X-Token");
+  res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+  next()
+})
+
 // apis
 server.use('/api', apiRoutes);
 
 server.get('*', (req, res, next) => {
+  
+  
+  
   let history = useQueries(createMemoryHistory)();
   let store = configureStore();
   let routes = createRoutes(history);
