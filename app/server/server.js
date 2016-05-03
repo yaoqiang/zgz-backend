@@ -7,7 +7,7 @@ import methodOverride from 'method-override';
 
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import { RouterContext, match } from 'react-router';
+import { RoutingContext, match } from 'react-router';
 
 import { createMemoryHistory, useQueries } from 'history';
 import compression from 'compression';
@@ -26,7 +26,7 @@ let scriptSrcs;
 
 let styleSrc;
 
-if ( process.env.NODE_ENV === 'production' ) {
+if (process.env.NODE_ENV === 'production') {
   let refManifest = require('../../dist/rev-manifest.json');
   scriptSrcs = [
     `/vendor.js`,
@@ -48,6 +48,16 @@ server.set('views', path.join(__dirname, 'views'));
 server.set('view engine', 'ejs');
 
 
+//设置跨域访问
+server.all('*', function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, X-Token");
+    res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+    res.header("X-Powered-By", ' 4.13.3')
+    res.header("Content-Type", "application/json; charset=utf-8");
+    next();
+});
+
 server.use(cookieParser());
 server.use(bodyParser.json());
 // parse request bodies (req.body)
@@ -55,16 +65,16 @@ server.use(bodyParser.urlencoded({ extended: true }));
 // allow overriding methods in query (?_method=put)
 server.use(methodOverride('_method'));
 server.use(session({
-secret: 'zgz-backend!!!',
-resave: false,
-saveUninitialized: false,
-cookie: { maxAge: 60000 }
+  secret: 'zgz-backend!!!',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 60000 }
 }));
 
 // apis
 server.use('/api', apiRoutes);
 
-server.get('*', (req, res, next)=> {
+server.get('*', (req, res, next) => {
   let history = useQueries(createMemoryHistory)();
   let store = configureStore();
   let routes = createRoutes(history);
@@ -78,29 +88,29 @@ server.get('*', (req, res, next)=> {
     } else if (renderProps == null) {
       res.status(404).send('Not found')
     } else {
-      let [ getCurrentUrl, unsubscribe ] = subscribeUrl();
+      let [getCurrentUrl, unsubscribe] = subscribeUrl();
       let reqUrl = location.pathname + location.search;
 
-      getReduxPromise().then(()=> {
+      getReduxPromise().then(() => {
         let reduxState = escape(JSON.stringify(store.getState()));
         let html = ReactDOMServer.renderToString(
           <Provider store={store}>
-            { <RouterContext {...renderProps}/> }
+            { <RoutingContext {...renderProps}/> }
           </Provider>
         );
 
-        if ( getCurrentUrl() === reqUrl ) {
+        if (getCurrentUrl() === reqUrl) {
           res.render('index', { html, scriptSrcs, reduxState, styleSrc });
         } else {
           res.redirect(302, getCurrentUrl());
         }
         unsubscribe();
       })
-      .catch((err)=> {
-        unsubscribe();
-        next(err);
-      });
-      function getReduxPromise () {
+        .catch((err) => {
+          unsubscribe();
+          next(err);
+        });
+      function getReduxPromise() {
         let { query, params } = renderProps;
         let comp = renderProps.components[renderProps.components.length - 1].WrappedComponent;
         let promise = comp.fetchData ?
@@ -111,21 +121,21 @@ server.get('*', (req, res, next)=> {
       }
     }
   });
-  function subscribeUrl () {
+  function subscribeUrl() {
     let currentUrl = location.pathname + location.search;
-    let unsubscribe = history.listen((newLoc)=> {
+    let unsubscribe = history.listen((newLoc) => {
       if (newLoc.action === 'PUSH') {
         currentUrl = newLoc.pathname + newLoc.search;
       }
     });
     return [
-      ()=> currentUrl,
+      () => currentUrl,
       unsubscribe
     ];
   }
 });
 
-server.use((err, req, res, next)=> {
+server.use((err, req, res, next) => {
   console.log(err);
   // TODO report error here or do some further handlings
   res.status(500).send("something went wrong...")
