@@ -17,6 +17,10 @@ import Tab from 'material-ui/lib/tabs/tab';
 
 import _ from 'lodash';
 
+
+import gameConstants from '../config/gameConstants';
+
+
 const styles = {
   headline: {
     fontSize: 24,
@@ -38,7 +42,6 @@ export default class GrantBox extends React.Component {
             value: 'a',
         };
         this.submitGrant = this.submitGrant.bind(this);
-        this.closeGrantBoxDialog = this.closeGrantBoxDialog.bind(this);
         this.handleChange = this.handleChange.bind(this);
 
     }
@@ -55,12 +58,24 @@ export default class GrantBox extends React.Component {
 
 
     submitGrant() {
+        const gold = this.refs.gold.getValue() == '' ? null : parseInt(this.refs.gold.getValue());
+        const fragment = this.refs.fragment.getValue() == '' ? null : parseInt(this.refs.fragment.getValue());
         
-        this.props.grant({ uid: this.props.uid, productId: this.props.rechargeProductId })
-    }
-
-    closeGrantBoxDialog() {
-        this.props.closeGrantBoxDialog();
+        const itemMap = _.map(this.props.itemList, (item) => {
+            return {key: 'item_'+item.id, id: item.id}
+        });
+        
+        const itemList = _.filter(_.map(itemMap, (m) => {
+            return {id: m.id, value:  _.get(this.refs, m.key).getValue()}
+        }), (item) => {
+            return item.value !== '' && item.value != null;
+        });
+        
+        const itemListFinal = _.map(itemList, (item) => {
+            return {id: item.id, value: parseInt(item.value)};
+        })
+        
+        this.props.grant({ uid: this.props.uid, type: gameConstants.GLOBAL.ADD_GOLD_TYPE.ACTIVITY, gold: gold, fragment: fragment, items: itemListFinal })
     }
 
     render() {
@@ -68,15 +83,15 @@ export default class GrantBox extends React.Component {
 
         const actions = [
             <FlatButton
-                label="取消"
+                label="关闭"
                 secondary={true}
                 onTouchTap={this.props.closeGrantBoxDialog}
                 />,
             <FlatButton
-                label="奖!"
+                label="奖!!!"
                 primary={true}
                 keyboardFocused={true}
-                onTouchTap={this.submitRecharge}
+                onTouchTap={this.submitGrant}
                 />,
         ];
 
@@ -84,7 +99,7 @@ export default class GrantBox extends React.Component {
             <FlatButton
                 label="关闭"
                 secondary={true}
-                onTouchTap={this.closeGrantBoxDialog}
+                onTouchTap={this.props.handleGrantAlertClose}
                 />,
         ];
 
@@ -98,6 +113,7 @@ export default class GrantBox extends React.Component {
                     contentStyle={customContentStyle}
                     onRequestClose={this.props.closeGrantBoxDialog}
                     autoScrollBodyContent={true}
+                    autoDetectWindowHeight={false}
                     >
 
                     <div>
@@ -107,39 +123,34 @@ export default class GrantBox extends React.Component {
                             >
                             <Tab label="金币" value="a" >
                                 <div>
-                                    <p>
                                         <TextField
                                         style={{textAlign: 'left'}}
                                         ref="gold"
                                         hintText="$$$"
                                         floatingLabelText="$$$"/>
-                                    </p>
                                 </div>
                             </Tab>
                             <Tab label="道具" value="b">
                                 <div>
                                     {
                                         _.map(this.props.itemList, (item) => {
-                                            return <p>
-                                                <TextField
+                                            return <TextField
+                                                key={'item_' + item.id}
                                                 style={{textAlign: 'left'}}
                                                 ref={'item_' + item.id}
                                                 hintText={item.title}
                                                 floatingLabelText={item.title}/>
-                                            </p>
                                         })
                                     }
                                 </div>
                             </Tab>
                             <Tab label="元宝" value="c">
                                 <div>
-                                    <p>
                                         <TextField
                                         style={{textAlign: 'left'}}
                                         ref="fragment"
                                         hintText="元宝"
                                         floatingLabelText="元宝"/>
-                                    </p>
                                 </div>
                             </Tab>
                         </Tabs>
@@ -147,6 +158,15 @@ export default class GrantBox extends React.Component {
 
                 </Dialog>
 
+<Dialog
+                    title="奖励发放结果"
+                    actions={grantAlertActions}
+                    modal={false}
+                    open={this.props.grantAlertState != null}
+                    onRequestClose={this.props.handleGrantAlertClose}
+                    >
+                    {this.props.grantAlertState == 200 ? '奖励发放成功' : '奖励发放失败'}
+                </Dialog>
             </div>
         );
     }

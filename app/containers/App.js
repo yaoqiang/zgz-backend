@@ -5,6 +5,9 @@ import Header from 'components/Header';
 import Login from 'containers/Login';
 import Dashboard from 'containers/Dashboard';
 
+import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
+import themeDecorator from 'material-ui/lib/styles/theme-decorator';
+
 import injectTapEventPlugin from "react-tap-event-plugin";
 injectTapEventPlugin();
 
@@ -38,4 +41,4 @@ function mapStateToProps(state) {
   return {auth: state.auth};
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps)(themeDecorator(getMuiTheme(null, {userAgent: 'all' }))(App));

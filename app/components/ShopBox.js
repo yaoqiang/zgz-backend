@@ -53,7 +53,7 @@ export default class ShopBox extends React.Component {
 
         const actions = [
             <FlatButton
-                label="取消"
+                label="关闭"
                 secondary={true}
                 onTouchTap={this.props.closeShopBoxDialog}
                 />,
@@ -111,10 +111,10 @@ export default class ShopBox extends React.Component {
                     title="充值结果"
                     actions={rechargeAlertActions}
                     modal={false}
-                    open={this.props.rechargeState != null}
+                    open={this.props.rechargeAlertState != null}
                     onRequestClose={this.handleRechargeAlertClose}
                     >
-                    {this.props.rechargeState == 200 ? '充值成功' : '充值失败'}
+                    {this.props.rechargeAlertState == 200 ? '充值成功' : '充值失败'}
                 </Dialog>
             </div>
         );

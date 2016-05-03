@@ -178,7 +178,7 @@ function mapStateToProps(state) {
         userDetail: state.user.user,
         shopList: state.user.shopList,
         rechargeProductId: state.user.rechargeProductId,
-        rechargeState: state.user.rechargeState,
+        rechargeAlertState: state.user.rechargeAlertState,
         grantBoxState: state.user.grantBoxState,
         grantAlertState: state.user.grantAlertState,
         itemList: state.user.itemList

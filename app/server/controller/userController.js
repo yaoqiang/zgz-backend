@@ -138,12 +138,14 @@ router.post("/recharge", (req, res) => {
 
 router.post("/grant", (req, res) => {
   console.log("grant...");
+  const uid = req.body.uid;
+  const type = req.body.type;
   const gold = req.body.gold;
   const fragment = req.body.fragment;
   const items = req.body.items;
   new Promise((resolve, reject) => {
     if (gold) {
-      gameService.addGold(gold, (r1) => {
+      gameService.addGold({uid: uid, gold: gold, type: type}, (r1) => {
         if (r1.code == 200) {
           resolve()
         }
@@ -158,27 +160,27 @@ router.post("/grant", (req, res) => {
   })
   .then(() => {
     if (fragment) {
-      gameService.addFragment(fragment, (r1) => {
+      gameService.addFragment({uid: uid, fragment: fragment, type: type}, (r1) => {
         if (r1.code == 200) {
-          resolve()
+          Promise.resolve()
         }
         else {
-          reject()
+          Promise.reject()
         }
       });
     }
     else {
-      resolve()
+      Promise.resolve()
     }
   })
   .then(() => {
-    if (items) {
-      gameService.addItems(items, (r1) => {
+    if (items && items.length > 0) {
+      gameService.addItems({uid: uid, items: items, type: type}, (r1) => {
         res.send(r1);
       });
     }
     else {
-      res.send(r1);
+      res.send({code: 200});
     }
   });
   

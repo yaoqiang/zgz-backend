@@ -37,17 +37,27 @@ export default function (state = defaultState, action = {}) {
         case ActionType.USER_RECHARGE_SUCCESS:
             cloned = _.clone(state)
             if (action.response.code == 200) {
-                cloned.rechargeState = 200;
+                cloned.rechargeAlertState = 200;
             }
             else {
-                cloned.rechargeState = 500;
+                cloned.rechargeAlertState = 500;
+            }
+            return cloned;
+
+        case ActionType.USER_GRANT_SUCCESS:
+            cloned = _.clone(state)
+            if (action.response.code == 200) {
+                cloned.grantAlertState = 200;
+            }
+            else {
+                cloned.grantAlertState = 500;
             }
             return cloned;
         case ActionType.SHOP_LIST_SUCCESS:
             cloned = _.clone(state)
             cloned.shopList = action.response.shopList;
             return cloned;
-            
+
         case ActionType.ITEM_LIST_SUCCESS:
             cloned = _.clone(state)
             cloned.itemList = action.response.itemList;
@@ -62,10 +72,10 @@ export default function (state = defaultState, action = {}) {
             cloned = _.clone(state)
             cloned.shopList = null;
             return cloned;
-            
+
         case ActionType.UI_RECHARGE_ALERT_CLOSE:
             cloned = _.clone(state)
-            cloned.rechargeState = null;
+            cloned.rechargeAlertState = null;
             return cloned;
         case ActionType.UI_GRANT_BOX_DIALOG_OPEN:
             cloned = _.clone(state)
@@ -75,12 +85,12 @@ export default function (state = defaultState, action = {}) {
             cloned = _.clone(state)
             cloned.grantBoxState = null;
             return cloned;
-            
+
         case ActionType.UI_GRANT_ALERT_CLOSE:
             cloned = _.clone(state)
             cloned.grantAlertState = null;
             return cloned;
-            
+
         case ActionType.UI_RECHARGE_PRODUCT_SELECT:
             cloned = _.clone(state)
             cloned.rechargeProductId = action.data.rechargeProductId;
