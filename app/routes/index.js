@@ -14,11 +14,17 @@ import Dashboard from 'containers/Dashboard';
 import User from 'containers/User';
 import Order from 'containers/Order';
 
+	
+function requireAuth() {
+	return true;
+}
+
 export default function(history) {
+
   
   return (
     <Router history={browserHistory}>
-	     <Route path="/" component={App} >
+	     <Route path="/" component={App} onEnter={requireAuth}>
 	        <IndexRoute component={Dashboard} />
 					<Route path="user" component={User} />
 					<Route path="order" component={Order} />
