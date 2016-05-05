@@ -7,7 +7,7 @@
     "start-prod": "cross-env NODE_ENV=production NODE_PATH=./app node ./app/server",
     "test": "cross-env NODE_ENV=test cross-env NODE_PATH=./app mocha --compilers js:babel-register -r app/spec/support/setup.mocha.js --recursive 'app/spec/**/*.test.js' -w",
     "test:ci": "cross-env NODE_ENV=test cross-env NODE_PATH=./app mocha --compilers js:babel-register -r app/spec/support/setup.mocha.js --recursive 'app/spec/**/*.test.js'",
-    "webpack": "cross-env NODE_ENV=production API_BASE_URL=http://127.0.0.1:4000 webpack",
+    "webpack": "cross-env NODE_ENV=production API_BASE_URL=http://101.201.154.38:4000 webpack",
     "build": "rimraf dist/ && npm run webpack && gulp css:build",
     "postinstall": "npm run build"
   },
