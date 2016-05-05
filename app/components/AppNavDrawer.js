@@ -81,11 +81,9 @@ const AppNavDrawer = React.createClass({
         </div>
 
         
-        <SelectableList
-          valueLink={{value: location.pathname, requestChange: onRequestChangeList}}
-        >
+        <SelectableList value={location.pathname} onChange={onRequestChangeList}>
           <Link to="/user"><ListItem primaryText="玩家管理" value="/user" /></Link>
-          <ListItem primaryText="订单管理" value="/order" />
+          <Link to="/order"><ListItem primaryText="订单管理" value="/order" /></Link>
           <ListItem
             primaryText="兑换管理"
             primaryTogglesNestedList={true}
@@ -130,9 +128,7 @@ const AppNavDrawer = React.createClass({
           
         </SelectableList>
         <Divider />
-        <SelectableList
-          valueLink={{value: '', requestChange: this.handleRequestChangeLink}}
-        >
+        <SelectableList value="" onChange={this.handleRequestChangeLink}>
           <Subheader>Resources</Subheader>
           
         </SelectableList>

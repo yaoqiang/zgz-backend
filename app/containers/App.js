@@ -32,7 +32,7 @@ const muiTheme = getMuiTheme({
 
   },
 }, {
-    userAgent: 'all',
+    
   });
 
 
@@ -42,6 +42,11 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+    this.getStyles = this.getStyles.bind(this);
+    this.handleTouchTapLeftIconButton = this.handleTouchTapLeftIconButton.bind(this);
+    this.handleChangeRequestNavDrawer = this.handleChangeRequestNavDrawer.bind(this);
+    this.handleRequestChangeList = this.handleRequestChangeList.bind(this);
+    this.handleChangeMuiTheme = this.handleRequestChangeList.bind(this);
   }
 
 
@@ -67,9 +72,14 @@ class App extends Component {
     children: React.PropTypes.node,
     location: React.PropTypes.object,
   }
+  
+  contextTypes = {
+    router: React.PropTypes.func.isRequired
+  }
 
   childContext = {
     muiTheme: this.state.muiTheme,
+    
   }
 
   getStyles() {
@@ -135,7 +145,11 @@ class App extends Component {
     });
   }
 
-
+handleChangeMuiTheme(muiTheme) {
+    this.setState({
+      muiTheme: muiTheme,
+    });
+  }
 
   render() {
     const auth = this.props.auth;
@@ -155,11 +169,12 @@ class App extends Component {
 
     const router = this.context.router;
     const styles = this.getStyles();
-
+    
+    
     let docked = false;
     let showMenuIconButton = true;
-
-    if (this.isDeviceSize(StyleResizable.statics.Sizes.LARGE)) {
+    const title = 'eRun'
+    if (this.isDeviceSize(StyleResizable.statics.Sizes.LARGE) && title !== '') {
       docked = true;
       navDrawerOpen = true;
       showMenuIconButton = false;
@@ -172,7 +187,7 @@ class App extends Component {
     }
 
     return (
-      <MuiThemeProvider muiTheme={muiTheme}>
+       <MuiThemeProvider muiTheme={muiTheme}>
 
         <div>
           {!auth.loggedIn &&
@@ -182,11 +197,21 @@ class App extends Component {
             <div>
               <AppBar
                 onLeftIconButtonTouchTap={this.handleTouchTapLeftIconButton}
-                title="RRRRR"
+                title={title}
                 zDepth={0}
                 style={styles.appBar}
                 showMenuIconButton={showMenuIconButton}
                 />
+              {title !== '' ?
+                <div style={prepareStyles(styles.root) }>
+                  <div style={prepareStyles(styles.content) }>
+                    {React.cloneElement(children, {
+                      onChangeMuiTheme: this.handleChangeMuiTheme,
+                    }) }
+                  </div>
+                </div> :
+                children
+              }
               <AppNavDrawer
                 style={styles.navDrawer}
                 location={location}
@@ -195,18 +220,13 @@ class App extends Component {
                 onRequestChangeList={this.handleRequestChangeList}
                 open={navDrawerOpen}
                 />
-              <div style={prepareStyles(styles.root) }>
-                <div style={prepareStyles(styles.content) }>
-                  {this.props.children}
-                </div>
-              </div>
+
             </div>
 
           }
 
         </div>
       </MuiThemeProvider>
-
     );
   }
 }
