@@ -74,7 +74,7 @@ export function get(uid) {
   return {
     [CALL_API]: {
       method: 'get',
-      path: '/api/user/${uid}',
+      path: '/api/user/'+uid,
       successType: USER_GET_SUCCESS,
       errorType: USER_GET_FAIL
     }

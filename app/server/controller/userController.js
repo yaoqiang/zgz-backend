@@ -76,9 +76,16 @@ router.get("/list", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-  console.log("get...");
+  console.log("get...", req.params.id);
   var query = {};
-  const uid = req.query.uid;
+  const uid = req.params.id;
+  try {
+    if (uid && uid !== '') {
+      query._id = mongojs.ObjectId(uid);
+    }
+  } catch (e) {
+    query._id = '-1';
+  }
   new Promise(function (resolve, reject) {
     db.user.findOne(query, function (err, doc) {
       if (err) {

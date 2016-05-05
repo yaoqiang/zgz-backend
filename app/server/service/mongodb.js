@@ -2,7 +2,9 @@ import mongojs from 'mongojs';
 
 import settings from '../const/settings';
 
-export const db = mongojs(settings.mongodbUrl,
+const mongodbUrl = process.env.NODE_ENV === 'production' ? settings.mongodbUrl : settings.mongodbUrlDev;
+
+export const db = mongojs(mongodbUrl,
     ['user', 'player', 'gameRecord', 'exchangeList', 'exchangeRecord', 'rankingList',
         'appReleaseRecord', 'onlineUserAnalysis', 'order', 'captcha', 'systemMessage', 'serialCode',
         'appleSetting', 'account', 
