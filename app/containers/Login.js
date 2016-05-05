@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import TextField from 'material-ui/lib/text-field';
-import RaisedButton from 'material-ui/lib/raised-button';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+
+
 import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 
@@ -49,7 +51,7 @@ class Login extends Component {
                   type="password" 
                   onKeyDown={this.onKeyPress} 
                   errorText={this.props.auth.err}/><br/>
-              <RaisedButton label="Login" secondary onClick={this.onSubmit} onTouchTap={this.onSubmit} />
+              <RaisedButton label="Login" primary onClick={this.onSubmit} onTouchTap={this.onSubmit} />
           </form>
         </div>
     );

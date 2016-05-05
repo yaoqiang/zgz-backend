@@ -1,5 +1,8 @@
 {
-  "presets": ["es2015", "react"],
+  "presets": ["es2015", "stage-1", "react"],
+  "plugins": [
+    ["transform-decorators-legacy"]
+  ],
   "env": {
     "test": {
       "plugins": [ "babel-plugin-rewire" ]

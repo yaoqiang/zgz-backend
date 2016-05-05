@@ -3,17 +3,18 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Helmet from 'react-helmet';
 
-import TextField from 'material-ui/lib/text-field';
-import RaisedButton from 'material-ui/lib/raised-button';
-import DropDownMenu from 'material-ui/lib/DropDownMenu';
-import MenuItem from 'material-ui/lib/menus/menu-item';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
 
-import Dialog from 'material-ui/lib/dialog';
-import FlatButton from 'material-ui/lib/flat-button';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+
 
 import _ from 'lodash';
-
-import { Breadcrumb, Form, FormGroup, ControlLabel, FormControl, Button, Table, Pager, PageItem } from 'react-bootstrap';
 
 import { bindActionCreators } from 'redux';
 
@@ -92,11 +93,7 @@ class User extends Component {
         return (
             <div>
                 <Helmet title="玩家管理"/>
-                <Breadcrumb>
-                    <Breadcrumb.Item active>
-                        玩家管理
-                    </Breadcrumb.Item>
-                </Breadcrumb>
+                
                 {'  '}
                 <TextField
                     ref="uid"
@@ -112,46 +109,40 @@ class User extends Component {
                     style={style}
                     onKeyDown={this.onKeyPress}
                     type=""/>
-                <RaisedButton label="搜索" secondary style={style} onTouchTap={this.onSearch} />
+                <RaisedButton label="搜索" primary style={style} onTouchTap={this.onSearch} />
 
 
                 <br /><br />
 
-                <Table striped bordered condensed hover responsive>
-                    <thead>
-                        <tr>
+                <Table>
+                     <TableHeader>
+      <TableRow>
                             <th>#</th>
                             <th>手机号</th>
                             <th>昵称</th>
                             <th>加入时间</th>
                             <th>上次登录时间</th>
                             <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                        </TableRow>
+    </TableHeader>
+    <TableBody>
                         {
                             _.map(userList, (u, index) => {
-                                return <tr key={u.uid}>
-                                    <td>{index + 1}</td>
-                                    <td>{u.mobile}</td>
-                                    <td>{u.nickName}</td>
-                                    <td>{new Date(u.createdAt).toLocaleString() }</td>
-                                    <td>{new Date(u.lastLoginAt).toLocaleString() }</td>
-                                    <td>
-                                        <RaisedButton label="详情" secondary style={style} onTouchTap={self.onDetail.bind(this, u.uid) } />
-                                    </td>
-                                </tr>
+                                return  <TableRow key={u.uid}>
+                                    <TableRowColumn>{index + 1}</TableRowColumn>
+                                    <TableRowColumn>{u.mobile}</TableRowColumn>
+                                    <TableRowColumn>{u.nickName}</TableRowColumn>
+                                    <TableRowColumn>{new Date(u.createdAt).toLocaleString() }</TableRowColumn>
+                                    <TableRowColumn>{new Date(u.lastLoginAt).toLocaleString() }</TableRowColumn>
+                                    <TableRowColumn>
+                                        <RaisedButton label="详情" primary style={style} onTouchTap={self.onDetail.bind(this, u.uid) } />
+                                    </TableRowColumn>
+                                </TableRow>
                             })
                         }
 
-                    </tbody>
+                    </TableBody>
                 </Table>
-                <Pager>
-                    <PageItem href="#">上一页</PageItem>
-                    {' '}
-                    <PageItem href="#">下一页</PageItem>
-                </Pager>
-                
                 
 
                 <UserDetail open={userDetail != null}
