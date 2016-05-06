@@ -7,7 +7,7 @@ import { browserHistory } from 'react-router'
 
 import cookie from 'react-cookie';
 
-
+import NotFound from 'components/NotFound';
 import App from 'containers/App';
 import Login from 'containers/Login';
 import Dashboard from 'containers/Dashboard';
@@ -22,6 +22,8 @@ export default function(history) {
 	        <IndexRoute component={Dashboard} />
 					<Route path="user" component={User} />
 					<Route path="order" component={Order} />
+					
+					<Route path="*" component={NotFound}/>
 		  </Route>
 	   </Router>
   );

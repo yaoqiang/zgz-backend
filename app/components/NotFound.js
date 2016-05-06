@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 
-class Error404 extends Component {
+class NotFound extends Component {
 
   render() {
     return (
@@ -14,4 +14,4 @@ class Error404 extends Component {
   }
 }
 
-export default Error404;
+export default NotFound;

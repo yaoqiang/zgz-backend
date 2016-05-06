@@ -42,6 +42,7 @@
     "lodash": "^3.10.1",
     "material-ui": "^0.15.0-beta.2",
     "method-override": "^2.3.5",
+    "moment": "^2.13.0",
     "mongojs": "^2.3.0",
     "normalizr": "^1.0.0",
     "password-hash": "^1.2.2",
