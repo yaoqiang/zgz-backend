@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Helmet from 'react-helmet';
 
+import moment from 'moment';
+
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
@@ -13,6 +15,8 @@ import FlatButton from 'material-ui/FlatButton';
 
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import _ from 'lodash';
 
@@ -82,8 +86,8 @@ class User extends Component {
         console.log('onDetailClose -> ');
         this.props.closeUserDetailDialog();
     }
-    
-   
+
+
 
     render() {
 
@@ -93,7 +97,7 @@ class User extends Component {
         return (
             <div>
                 <Helmet title="玩家管理"/>
-                
+
                 {'  '}
                 <TextField
                     ref="uid"
@@ -114,36 +118,39 @@ class User extends Component {
 
                 <br /><br />
 
-                <Table>
-                     <TableHeader>
-      <TableRow>
-                            <th>#</th>
-                            <th>手机号</th>
-                            <th>昵称</th>
-                            <th>加入时间</th>
-                            <th>上次登录时间</th>
+                <Table selectable={false}>
+                    <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+                        <TableRow>
                             <th>操作</th>
+
+                            <th>手机</th>
+                            <th>昵称</th>
+                            <th>加入</th>
+                            <th>登录</th>
                         </TableRow>
-    </TableHeader>
-    <TableBody>
+                    </TableHeader>
+                    <TableBody displayRowCheckbox={false}>
                         {
                             _.map(userList, (u, index) => {
-                                return  <TableRow key={u.uid}>
-                                    <TableRowColumn>{index + 1}</TableRowColumn>
+                                return <TableRow key={u.uid}>
+                                
+                                    <TableRowColumn>
+                                    <FloatingActionButton mini={true} secondary={true} style={style} onTouchTap={self.onDetail.bind(this, u.uid) }>
+      <ContentAdd />
+    </FloatingActionButton>
+                                    </TableRowColumn>
                                     <TableRowColumn>{u.mobile}</TableRowColumn>
                                     <TableRowColumn>{u.nickName}</TableRowColumn>
                                     <TableRowColumn>{new Date(u.createdAt).toLocaleString() }</TableRowColumn>
                                     <TableRowColumn>{new Date(u.lastLoginAt).toLocaleString() }</TableRowColumn>
-                                    <TableRowColumn>
-                                        <RaisedButton label="详情" primary style={style} onTouchTap={self.onDetail.bind(this, u.uid) } />
-                                    </TableRowColumn>
+
                                 </TableRow>
                             })
                         }
 
                     </TableBody>
                 </Table>
-                
+
 
                 <UserDetail open={userDetail != null}
                     handleClose={this.onDetailClose}
@@ -151,8 +158,8 @@ class User extends Component {
                     onGrant={this.onGrant}
                     {...this.props} />
 
-                    
-                
+
+
             </div>
         );
     }

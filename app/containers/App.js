@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import {Link} from 'react-router';
 
-import Header from 'components/Header';
 import Login from 'containers/Login';
 import Dashboard from 'containers/Dashboard';
 
@@ -68,18 +68,17 @@ class App extends Component {
     navDrawerOpen: false,
   }
 
-  propTypes = {
+  static propTypes = {
     children: React.PropTypes.node,
     location: React.PropTypes.object,
   }
   
-  contextTypes = {
-    router: React.PropTypes.func.isRequired
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
   }
 
   childContext = {
     muiTheme: this.state.muiTheme,
-    
   }
 
   getStyles() {

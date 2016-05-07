@@ -38,7 +38,7 @@ const AppNavDrawer = React.createClass({
     const self = this;
     
   },
-
+  
   
   handleTouchTapHeader() {
     this.context.router.push('/');
@@ -82,46 +82,50 @@ const AppNavDrawer = React.createClass({
 
         
         <SelectableList value={location.pathname} onChange={onRequestChangeList}>
-          <Link to="/user"><ListItem primaryText="玩家管理" value="/user" /></Link>
-          <Link to="/order"><ListItem primaryText="订单管理" value="/order" /></Link>
+          <ListItem primaryText="玩家管理" key={1} value="/user" />
+          <ListItem primaryText="订单管理" key={2} value="/order" />
           <ListItem
             primaryText="兑换管理"
             primaryTogglesNestedList={true}
+            key={3}
             nestedItems={[
-              <ListItem primaryText="兑换列表" value="/exchange/list" />,
-              <ListItem primaryText="兑换记录" value="/exchange/record" />,
+              <ListItem primaryText="兑换列表" value="/exchange/list" key={3.1}/>,
+              <ListItem primaryText="兑换记录" value="/exchange/record" key={3.2}/>,
             ]}
           />
-          <ListItem primaryText="活动管理" value="/exchange/list" />
+          <ListItem primaryText="活动管理" value="/exchange/list" key={4}/>
           <ListItem
             primaryText="游戏管理"
             primaryTogglesNestedList={true}
+            key={5}
             nestedItems={[
-              <ListItem primaryText="游戏公告发送" value="/exchange/list" />,
-              <ListItem primaryText="系统邮件维护" value="/exchange/record" />,
+              <ListItem primaryText="游戏公告发送" value="/exchange/list" key={5.1}/>,
+              <ListItem primaryText="系统邮件维护" value="/exchange/record" key={5.2}/>,
               <Divider />,
-              <ListItem primaryText="苹果审核开关" value="/exchange/list" />,
-              <ListItem primaryText="游戏版本设置" value="/exchange/record" />,
+              <ListItem primaryText="苹果审核开关" value="/exchange/list" key={5.3}/>,
+              <ListItem primaryText="游戏版本设置" value="/exchange/record" key={5.4}/>,
             ]}
           />
           
           <ListItem
             primaryText="统计分析"
             primaryTogglesNestedList={true}
+            key={6}
             nestedItems={[
-              <ListItem primaryText="活跃用户" value="/exchange/list" />,
-              <ListItem primaryText="新增用户" value="/exchange/record" />,
+              <ListItem primaryText="活跃用户" value="/exchange/list" key={6.1}/>,
+              <ListItem primaryText="新增用户" value="/exchange/record" key={6.2}/>,
               <Divider />,
-              <ListItem primaryText="留存率" value="/exchange/list" />,
-              <ListItem primaryText="..." value="/exchange/record" />,
+              <ListItem primaryText="留存率" value="/exchange/list" key={6.3}/>,
+              <ListItem primaryText="..." value="/exchange/record" key={6.4}/>,
             ]}
           />
           
           <ListItem
             primaryText="系统管理"
             primaryTogglesNestedList={true}
+            key={7}
             nestedItems={[
-              <ListItem primaryText="账号管理" value="/exchange/list" />,
+              <ListItem primaryText="账号管理" value="/exchange/list" key={7.1}/>,
             ]}
           />
           

@@ -18,7 +18,7 @@ router.get("/", (req, res) => {
 router.get("/acquisition", (req, res) => {
   console.log("/acquisition...");
   const total = db.user.count({}, function (err, dbRes) {
-    res.send({ code: 200, total: dbRes });
+    res.send({ acquisition: dbRes });
   });
   //
 });
@@ -26,21 +26,21 @@ router.get("/acquisition", (req, res) => {
 router.get("/acquisitionLastDay", (req, res) => {
   console.log("/acquisitionLastDay...");
   const total = db.user.count({ createdAt: { $gt: moment().add(-1, 'days').format('YYYY-MM-DD') } }, function (err, dbRes) {
-    res.send({ code: 200, total: dbRes });
+    res.send({ acquisitionLastDay: dbRes });
   });
 });
 
 router.get("/acquisitionLastWeek", (req, res) => {
   console.log("/acquisitionLastWeek...");
   const total = db.user.count({ createdAt: { $gt: moment().add(-1, 'weeks').format('YYYY-MM-DD') } }, function (err, dbRes) {
-    res.send({ code: 200, total: dbRes });
+    res.send({ acquisitionLastWeek: dbRes });
   });
 });
 
 router.get("/acquisitionLastTwoWeek", (req, res) => {
   console.log("/acquisitionLastTwoWeek...");
   const total = db.user.count({ createdAt: { $gt: moment().add(-2, 'weeks').format('YYYY-MM-DD') } }, function (err, dbRes) {
-    res.send({ code: 200, total: dbRes });
+    res.send({ acquisitionLastTwoWeek: dbRes } );
   });
 });
 
@@ -48,7 +48,7 @@ router.get("/acquisitionLastMonth", (req, res) => {
   console.log("/acquisitionLastMonth...");
 
   const total = db.user.count({ createdAt: { $gt: moment().add(-1, 'months').format('YYYY-MM-DD') } }, function (err, dbRes) {
-    res.send({ code: 200, total: dbRes });
+    res.send({ acquisitionLastMonth: dbRes });
   });
 });
 
@@ -90,13 +90,19 @@ router.get("/activationLastDay", (req, res) => {
   const total = db.logLoginRecord.aggregate(
     [
       { $match: { createdAt: { $gt: moment().add(-1, 'days').format('YYYY-MM-DD') } } },
-      { $group: { 
-        "_id": {uid: "$uid"},
-        "count": { $sum: 1 } 
-      } }
-    ]).toArray().length;
-    
-    res.send({ code: 200, total: total });
+      {
+        $group: {
+          "_id": { uid: "$uid" },
+          "count": { $sum: 1 }
+        }
+      }
+    ]).toArray(function (err, result) {
+      res.send({ activationLastDay: result.length });
+    })
+
+
+
+
 });
 
 
@@ -107,13 +113,15 @@ router.get("/activationLastWeek", (req, res) => {
   db.logLoginRecord.aggregate(
     [
       { $match: { createdAt: { $gt: moment().add(-1, 'weeks').format('YYYY-MM-DD') } } },
-      { $group: { 
-        "_id": {uid: "$uid"},
-        "count": { $sum: 1 } 
-      } }
-    ]).toArray().length;
-    
-    res.send({ code: 200, total: total });
+      {
+        $group: {
+          "_id": { uid: "$uid" },
+          "count": { $sum: 1 }
+        }
+      }
+    ]).toArray(function (err, result) {
+      res.send({ activationLastWeek: result.length });
+    })
 });
 
 router.get("/activationLastTwoWeek", (req, res) => {
@@ -122,13 +130,15 @@ router.get("/activationLastTwoWeek", (req, res) => {
   db.logLoginRecord.aggregate(
     [
       { $match: { createdAt: { $gt: moment().add(-2, 'weeks').format('YYYY-MM-DD') } } },
-      { $group: { 
-        "_id": {uid: "$uid"},
-        "count": { $sum: 1 } 
-      } }
-    ]).toArray().length;
-    
-    res.send({ code: 200, total: total });
+      {
+        $group: {
+          "_id": { uid: "$uid" },
+          "count": { $sum: 1 }
+        }
+      }
+    ]).toArray(function (err, result) {
+      res.send({ activationLastTwoWeek: result.length });
+    })
 });
 
 router.get("/activationLastMonth", (req, res) => {
@@ -141,9 +151,10 @@ router.get("/activationLastMonth", (req, res) => {
         "_id": {uid: "$uid"},
         "count": { $sum: 1 } 
       } }
-    ]).toArray().length;
-    
-    res.send({ code: 200, total: total });
+    ]).toArray(function(err, result) {
+      res.send({ activationLastMonth: result.length });
+    })
+
 });
 
 router.get("/retentionLastDay", (req, res) => {
