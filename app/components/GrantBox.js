@@ -129,7 +129,8 @@ export default class GrantBox extends React.Component {
                                         style={{textAlign: 'left'}}
                                         ref="gold"
                                         hintText="$$$"
-                                        floatingLabelText="$$$"/>
+                                        floatingLabelText="$$$"
+                                        onChange={e => e.stopPropagation()}/>
                                 </div>
                             </Tab>
                             <Tab label="道具" value="b">
@@ -141,7 +142,8 @@ export default class GrantBox extends React.Component {
                                                 style={{textAlign: 'left'}}
                                                 ref={'item_' + item.id}
                                                 hintText={item.title}
-                                                floatingLabelText={item.title}/>
+                                                floatingLabelText={item.title}
+                                                onChange={e => e.stopPropagation()}/>
                                         })
                                     }
                                 </div>
@@ -152,7 +154,8 @@ export default class GrantBox extends React.Component {
                                         style={{textAlign: 'left'}}
                                         ref="fragment"
                                         hintText="元宝"
-                                        floatingLabelText="元宝"/>
+                                        floatingLabelText="元宝"
+                                        onChange={e => e.stopPropagation()}/>
                                 </div>
                             </Tab>
                         </Tabs>
