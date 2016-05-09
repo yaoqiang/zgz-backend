@@ -35,7 +35,7 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
-        <h1>Dashboard Page</h1>
+        <h2>综合数据</h2>
         <Paper style={style} zDepth={3} >
           <HardwareVideogameAsset style={iconStyles} color={blue500} /><br />
           用户总数：<br />{this.props.acquisition}
