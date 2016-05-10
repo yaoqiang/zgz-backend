@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
+import serveFavicon from 'serve-favicon';
 
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
@@ -47,6 +48,8 @@ server.use(compression());
 server.use(Express.static(path.join(__dirname, '../..', 'dist')));
 server.set('views', path.join(__dirname, 'views'));
 server.set('view engine', 'ejs');
+
+server.use(serveFavicon(__dirname + '/favicon.ico'));
 
 
 server.use(cookieParser());
