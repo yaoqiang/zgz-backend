@@ -34,9 +34,10 @@ router.get("/getItemList", (req, res) => {
 });
 
 router.post("/sendBBS", (req, res) => {
-  console.log("login...");
-  
-  res.send(200);
+  console.log("sendBBS...");
+  gameService.sendBBS({content: req.body.content}, function (result) {
+    res.send({code: result.code});
+  })
 });
 
 router.post("/shutdown", (req, res) => {

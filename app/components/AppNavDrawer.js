@@ -99,7 +99,7 @@ const AppNavDrawer = React.createClass({
             primaryTogglesNestedList={true}
             key={5}
             nestedItems={[
-              <ListItem primaryText="游戏公告发送" value="/exchange/list" key={5.1}/>,
+              <ListItem primaryText="游戏公告发送" value="/game/bbs" key={5.1}/>,
               <ListItem primaryText="系统邮件维护" value="/exchange/record" key={5.2}/>,
               <Divider />,
               <ListItem primaryText="苹果审核开关" value="/exchange/list" key={5.3}/>,

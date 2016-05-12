@@ -14,6 +14,8 @@ import Dashboard from 'containers/Dashboard';
 import User from 'containers/User';
 import Order from 'containers/Order';
 
+import BBS from 'containers/BBS';
+
 export default function(history) {
   
   return (
@@ -22,6 +24,8 @@ export default function(history) {
 	        <IndexRoute component={Dashboard} />
 					<Route path="user" component={User} />
 					<Route path="order" component={Order} />
+					
+					<Route path="game/bbs" component={BBS} />
 					
 					<Route path="*" component={NotFound}/>
 		  </Route>
