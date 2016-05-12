@@ -22,7 +22,7 @@ const gameService = {
             .get(apiSuffix + '/getOnlineUserByUids?uids=' + data.uids.join(','))
             .set('Content-Type', 'application/json')
             .end((err, res) => {
-                console.log('getOnlineUserTotal callback -> ', res);
+                console.log('getOnlineUserTotal callback -> ');
                 cb(res.body);
             })
 
@@ -35,7 +35,7 @@ const gameService = {
             .set('Content-Type', 'application/json')
             .send(data)
             .end((err, res) => {
-                console.log('payment4OSS callback -> ', err);
+                console.log('payment4OSS callback -> ');
                 if (err) {
                     return cb({code: 500})
                 }
@@ -109,7 +109,7 @@ const gameService = {
             .get(apiSuffix + '/getExchangeListNew')
             .set('Content-Type', 'application/json')
             .end((err, res) => {
-                console.log('getExchangeListNew callback -> ', res);
+                console.log('getExchangeListNew callback -> ');
                 cb(res.body);
             })
     },
@@ -126,7 +126,7 @@ const gameService = {
             .get(apiSuffix + '/getRankingList?type=' + data.type)
             .set('Content-Type', 'application/json')
             .end((err, res) => {
-                console.log('getRankingList callback -> ', res);
+                console.log('getRankingList callback -> ');
                 cb(res.body);
             })
     },
@@ -140,7 +140,7 @@ const gameService = {
             .set('Content-Type', 'application/json')
             .send(data)
             .end((err, res) => {
-                console.log('sendBBS callback -> ', res);
+                console.log('sendBBS callback -> ');
                 cb(res.body);
             })
     }
