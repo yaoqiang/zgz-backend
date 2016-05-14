@@ -19,7 +19,6 @@ router.post("/settings", (req, res) => {
 
 
 router.get("/getShopList", (req, res) => {
-  console.log("getShopList...");
   gameService.getShopList(function (result) {
     res.send({shopList: result.shopList, code: result.code});
     
@@ -27,21 +26,25 @@ router.get("/getShopList", (req, res) => {
 });
 
 router.get("/getItemList", (req, res) => {
-  console.log("getItemList...");
   gameService.getItemList(function (result) {
     res.send({itemList: result.itemList, code: result.code});
   })
 });
 
 router.post("/sendBBS", (req, res) => {
-  console.log("sendBBS...");
   gameService.sendBBS({content: req.body.content}, function (result) {
     res.send({code: result.code});
   })
 });
 
+router.post("/getOnlineUserTotal", (req, res) => {
+  gameService.getOnlineUserTotal(function (result) {
+    //{"onlineUserTotal":49}
+    res.send(result);
+  })
+});
+
 router.post("/shutdown", (req, res) => {
-  console.log("shutdown...");
   res.send(200);
 });
 

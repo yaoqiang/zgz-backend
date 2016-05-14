@@ -38,6 +38,10 @@ class Dashboard extends Component {
         <h2>综合数据</h2>
         <Paper style={style} zDepth={3} >
           <HardwareVideogameAsset style={iconStyles} color={blue500} /><br />
+          当前在线<br />{this.props.onlineUserTotal}
+        </Paper>
+        <Paper style={style} zDepth={3} >
+          <HardwareVideogameAsset style={iconStyles} color={blue500} /><br />
           用户总数：<br />{this.props.acquisition}
         </Paper>
         <Paper style={style} zDepth={3} >
@@ -85,6 +89,7 @@ class Dashboard extends Component {
 
 function mapStateToProps(state) {
   return {
+    onlineUserTotal: state.dashboard.onlineUserTotal,
     acquisition: state.dashboard.acquisition,
     acquisitionLastDay: state.dashboard.acquisitionLastDay,
     acquisitionLastWeek: state.dashboard.acquisitionLastWeek,

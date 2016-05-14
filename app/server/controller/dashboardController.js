@@ -2,7 +2,12 @@ import express from "express"
 
 import { authenticationAccount } from "../filter/authFilter";
 
+
+import _ from "lodash";
+import settings from '../const/settings';
+
 import moment from 'moment';
+import gameService from "../service/gameService";
 
 import mongojs from 'mongojs';
 import { db as db} from "../service/mongodb";
@@ -13,6 +18,14 @@ router.get("/", (req, res) => {
   console.log("/...");
   //
   res.send(200);
+});
+
+router.get("/onlineUserTotal", (req, res) => {
+  gameService.getOnlineUserTotal(function (result) {
+    res.send(result);
+    
+  })
+  //
 });
 
 router.get("/acquisition", (req, res) => {

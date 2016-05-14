@@ -11,7 +11,7 @@ import * as passwordHash  from 'password-hash';
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  console.log("/...");
+  // console.log("/...");
   res.send(200);
 });
 
@@ -33,9 +33,8 @@ router.post("/signup", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-  console.log("login...", req.body);
+  // console.log("login...", req.body);
   const { username, password } = req.body
-  console.log(username, password);
   
   // token: Token.create(doc._id, Date.now(), password.toString(), secret),
   //                   uid: doc._id
@@ -48,16 +47,12 @@ router.post("/login", (req, res) => {
 });
 
 router.post("/register", (req, res) => {
-  console.log("login...");
   const { username, password } = req.body
-  console.log(username, password);
-
 
   res.send(200);
 });
 
 router.post("/logout", authenticationAccount, (req, res) => {
-  console.log("logout...");
   res.send(200);
 });
 

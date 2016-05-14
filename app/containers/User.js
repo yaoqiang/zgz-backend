@@ -67,23 +67,23 @@ class User extends Component {
     }
 
     onDetail(uid) {
-        console.log('onDetail -> ', uid);
+        // console.log('onDetail -> ', uid);
         this.props.get(uid);
     }
 
     onRecharge(uid) {
-        console.log('onRecharge -> ', uid);
+        // console.log('onRecharge -> ', uid);
 
         this.props.getShopList();
     }
 
     onGrant(uid) {
-        console.log('onGrant -> ', uid);
+        // console.log('onGrant -> ', uid);
         this.props.openGrantBoxDialog();
     }
 
     onDetailClose() {
-        console.log('onDetailClose -> ');
+        // console.log('onDetailClose -> ');
         this.props.closeUserDetailDialog();
     }
 

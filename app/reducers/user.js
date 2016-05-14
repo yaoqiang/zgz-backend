@@ -27,9 +27,7 @@ export default function (state = defaultState, action = {}) {
 
         case ActionType.USER_GET_SUCCESS:
             cloned = _.clone(state)
-            console.log(cloned);
             cloned.user = action.response.user;
-            console.log(cloned, ' - ', action.response.user);
             return cloned;
 
         case ActionType.USER_GET_FAIL:

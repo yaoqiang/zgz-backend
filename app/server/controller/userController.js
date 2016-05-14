@@ -10,12 +10,10 @@ import gameService from "../service/gameService";
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  console.log("/...");
   res.send(200);
 });
 
 router.get("/list", (req, res) => {
-  console.log("list...");
   var query = {};
   const uid = req.query.uid;
   const mobile = req.query.mobile;
@@ -76,7 +74,6 @@ router.get("/list", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-  console.log("get...", req.params.id);
   var query = {};
   const uid = req.params.id;
   try {
@@ -138,13 +135,11 @@ router.get("/getLogPaymentRecord", (req, res) => {
 
 router.post("/recharge", (req, res) => {
   gameService.payment4OSS({uid: req.body.uid, productId: req.body.productId}, function (result) {
-    console.log('/recharge result -> ', result);
     res.send(result);
   })
 });
 
 router.post("/grant", (req, res) => {
-  console.log("grant...");
   const uid = req.body.uid;
   const type = req.body.type;
   const gold = req.body.gold;

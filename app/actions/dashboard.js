@@ -1,5 +1,8 @@
 import { CALL_API, CHAIN_API } from 'middleware/api'
 
+export const DASHBOARD_ONLINE_USER_TOTAL_SUCCESS = Symbol('DASHBOARD_ONLINE_USER_TOTAL_SUCCESS')
+export const DASHBOARD_ONLINE_USER_TOTAL_FAIL = Symbol('DASHBOARD_ONLINE_USER_TOTAL_FAIL')
+
 export const DASHBOARD_ACQUISITION_SUCCESS = Symbol('DASHBOARD_ACQUISITION_SUCCESS')
 export const DASHBOARD_ACQUISITION_FAIL = Symbol('DASHBOARD_ACQUISITION_FAIL')
 export const DASHBOARD_ACQUISITION_LAST_DAY_SUCCESS = Symbol('DASHBOARD_ACQUISITION_LAST_DAY_SUCCESS')
@@ -25,6 +28,16 @@ export const DASHBOARD_ACTIVATION_LAST_MONTH_FAIL = Symbol('DASHBOARD_ACTIVATION
 export function dashboard() {
     return {
         [CHAIN_API]: [
+            () => {
+                return {
+                    [CALL_API]: {
+                        method: 'get',
+                        path: '/api/dashboard/onlineUserTotal',
+                        successType: DASHBOARD_ONLINE_USER_TOTAL_SUCCESS,
+                        errorType: DASHBOARD_ONLINE_USER_TOTAL_FAIL
+                    }
+                }
+            },
             () => {
                 return {
                     [CALL_API]: {

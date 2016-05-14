@@ -24,7 +24,7 @@ class Login extends Component {
     const login = this.refs.login.getValue();
     const password = this.refs.password.getValue();
     this.props.login(login, password);
-    console.log(`Login: ${login} Password: ${password}`);
+    // console.log(`Login: ${login} Password: ${password}`);
   }
   
   onKeyPress(event) {

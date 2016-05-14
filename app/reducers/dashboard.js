@@ -8,6 +8,9 @@ let defaultState = {
 export default function (state = defaultState, action = {}) {
     let cloned
     switch (action.type) {
+        case ActionType.DASHBOARD_ONLINE_USER_TOTAL_SUCCESS:
+            cloned = _.clone(state)
+            return _.merge(cloned, action.response)
         case ActionType.DASHBOARD_ACQUISITION_SUCCESS:
             cloned = _.clone(state)
             return _.merge(cloned, action.response)
