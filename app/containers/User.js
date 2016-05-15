@@ -121,12 +121,12 @@ class User extends Component {
                 <Table selectable={false}>
                     <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                         <TableRow>
-                            <th>操作</th>
+                            <TableHeaderColumn>操作</TableHeaderColumn>
 
-                            <th>手机</th>
-                            <th>昵称</th>
-                            <th>加入</th>
-                            <th>登录</th>
+                            <TableHeaderColumn>手机</TableHeaderColumn>
+                            <TableHeaderColumn>昵称</TableHeaderColumn>
+                            <TableHeaderColumn>加入</TableHeaderColumn>
+                            <TableHeaderColumn>登录</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
                     <TableBody displayRowCheckbox={false}>

@@ -64,7 +64,7 @@ class Order extends Component {
   }
 
   doSearch(uid, mobile, state, device, pageIndex) {
-    this.props.list(uid, mobile, state, device, pageIndex);
+    this.props.list(uid, mobile, state == null ? '' : state, device == null ? '' : device, pageIndex);
   }
 
   onKeyPress(event) {
@@ -99,7 +99,7 @@ class Order extends Component {
 
   render() {
 
-    const { orderList, orderDetail } = this.props;
+    const { orderList, orderDetail, total } = this.props;
     const self = this;
 
     return (
@@ -129,7 +129,7 @@ class Order extends Component {
         >
           {stateList}
         </SelectField>
-        
+        {'   '}
         <SelectField
           value={this.state.deviceValue}
           onChange={this.handleDeviceChange}
@@ -140,28 +140,31 @@ class Order extends Component {
 
         <RaisedButton label="搜索" primary style={style} onTouchTap={this.onSearch} />
 
-
-        <br /><br />
+        <br />
+        共{total}条数据
+        <br />
 
         <Table selectable={false}>
-          <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+          <TableHeader displaySelectAll={false} displaySelectAll={false} adjustForCheckbox={false}>
             <TableRow>
-              <th>订单</th>
-              <th>用户</th>
-              <th>商品</th>
-              <th>状态</th>
-              <th>时间</th>
+              <TableHeaderColumn>用户</TableHeaderColumn>
+              <TableHeaderColumn>商品</TableHeaderColumn>
+              <TableHeaderColumn>状态</TableHeaderColumn>
+              <TableHeaderColumn>时间</TableHeaderColumn>
             </TableRow>
           </TableHeader>
-          <TableBody displayRowCheckbox={false}>
+          <TableBody 
+            displayRowCheckbox={false}
+            deselectOnClickaway
+            showRowHover
+            stripedRows>
             {
               _.map(orderList, (order, index) => {
                 return <TableRow key={order.orderSerialNumber}>
-                  <TableRowColumn>{order.orderSerialNumber}</TableRowColumn>
                   <TableRowColumn>{order.uid}</TableRowColumn>
                   <TableRowColumn>{order.productId}</TableRowColumn>
                   <TableRowColumn>{order.state}{'-'}{order.device}</TableRowColumn>
-                  <TableRowColumn></TableRowColumn>
+                  <TableRowColumn>{new Date(order.createdAt).toLocaleString() }</TableRowColumn>
                 </TableRow>
               })
             }
@@ -182,6 +185,7 @@ function mapStateToProps(state) {
   return {
     pageIndex: state.order.pageIndex || 1,
     orderList: state.order.orderList,
+    total: state.order.total,
     orderDetail: state.order.orderDetail
   };
 }

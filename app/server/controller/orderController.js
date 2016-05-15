@@ -63,7 +63,7 @@ router.get("/list", (req, res) => {
   })
     .then(user => new Promise((resolve, reject) => {
       if (user) {
-        query.uid = user._id;
+        query.uid = user._id.toString();
       }
       db.order.find(query).limit(settings.pageSize).skip(skip, function (err, docs) {
         if (err) {
@@ -79,6 +79,11 @@ router.get("/list", (req, res) => {
           res.send({ code: 500 });
           return;
         }
+        
+        orderList = orderList.map(order => {
+          order.createdAt = order._id.getTimestamp();
+          return order;
+        })
 
         res.send({ code: 200, orderList: orderList, total: total, pageIndex: pageIndex });
         return;
