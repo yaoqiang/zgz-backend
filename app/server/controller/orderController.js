@@ -62,10 +62,15 @@ router.get("/list", (req, res) => {
 
   })
     .then(user => new Promise((resolve, reject) => {
+      //如果输入了用户条件没有查到, 则返回空数组
+      if (_.isNull(user) && _.keys(userQuery).length > 0) {
+          resolve([]);
+          return;
+      }
       if (user) {
         query.uid = user._id.toString();
       }
-      db.order.find(query).limit(settings.pageSize).skip(skip, function (err, docs) {
+      db.order.find(query).sort({_id: -1}).limit(settings.pageSize).skip(skip, function (err, docs) {
         if (err) {
           resolve([]);
           return;
