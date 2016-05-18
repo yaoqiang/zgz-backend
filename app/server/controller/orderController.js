@@ -71,6 +71,9 @@ router.get("/list", (req, res) => {
       if (user) {
         query.uid = user._id.toString();
       }
+      else {
+        query.uid = -1;
+      }
       db.order.find(query).sort({_id: -1}).limit(settings.pageSize).skip(skip, function (err, docs) {
         if (err) {
           resolve([]);
