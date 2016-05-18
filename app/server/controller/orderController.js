@@ -63,10 +63,10 @@ router.get("/list", (req, res) => {
   })
     .then(user => new Promise((resolve, reject) => {
       //如果输入了用户条件没有查到, 则返回空数组
-      // if (_.isNull(user) && _.keys(userQuery).length > 0) {
-      //     resolve([]);
-      //     return;
-      // }
+      if (!user && _.keys(userQuery).length > 0) {
+          res.send({ code: 200, orderList: [], total: 0, pageIndex: pageIndex });
+          return;
+      }
 
       if (user) {
         query.uid = user._id.toString();
