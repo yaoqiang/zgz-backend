@@ -67,6 +67,7 @@ router.get("/list", (req, res) => {
       //     resolve([]);
       //     return;
       // }
+
       if (user) {
         query.uid = user._id.toString();
       }
