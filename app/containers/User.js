@@ -129,15 +129,19 @@ class User extends Component {
                             <TableHeaderColumn>登录</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
-                    <TableBody displayRowCheckbox={false}>
+                    <TableBody
+                        displayRowCheckbox={false}
+                        deselectOnClickaway
+                        showRowHover
+                        stripedRows>>
                         {
                             _.map(userList, (u, index) => {
                                 return <TableRow key={u.uid}>
-                                
+
                                     <TableRowColumn>
-                                    <FloatingActionButton mini={true} secondary={true} style={style} onTouchTap={self.onDetail.bind(this, u.uid) }>
-      <ContentAdd />
-    </FloatingActionButton>
+                                        <FloatingActionButton mini={true} secondary={true} style={style} onTouchTap={self.onDetail.bind(this, u.uid) }>
+                                            <ContentAdd />
+                                        </FloatingActionButton>
                                     </TableRowColumn>
                                     <TableRowColumn>{u.mobile}</TableRowColumn>
                                     <TableRowColumn>{u.nickName}</TableRowColumn>
