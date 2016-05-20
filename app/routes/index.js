@@ -13,6 +13,7 @@ import Login from 'containers/Login';
 import Dashboard from 'containers/Dashboard';
 import User from 'containers/User';
 import Order from 'containers/Order';
+import ExchangeRecord from 'containers/ExchangeRecord';
 
 import BBS from 'containers/BBS';
 
@@ -24,7 +25,7 @@ export default function(history) {
 	        <IndexRoute component={Dashboard} />
 					<Route path="user" component={User} />
 					<Route path="order" component={Order} />
-					
+					<Route path="exchange/record" component={ExchangeRecord} />
 					<Route path="game/bbs" component={BBS} />
 					
 					<Route path="*" component={NotFound}/>

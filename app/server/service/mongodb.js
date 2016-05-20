@@ -7,7 +7,7 @@ const mongodbUrl = process.env.NODE_ENV === 'production' ? settings.mongodbUrl :
 export const db = mongojs(mongodbUrl,
     ['user', 'player', 'gameRecord', 'exchangeList', 'exchangeRecord', 'rankingList',
         'appReleaseRecord', 'onlineUserAnalysis', 'order', 'captcha', 'systemMessage', 'serialCode',
-        'appleSetting', 'account', 
+        'appleSetting', 'account', 'grantRecord', 
         'logLoginRecord', 'logGameRecord', 'logPaymentRecord', 'logUserRecord', 'logOnlineRecord'
     ]);
     
