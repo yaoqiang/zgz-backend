@@ -5,6 +5,8 @@ import settings from '../const/settings';
 import mongojs from 'mongojs';
 import { db as db} from "../service/mongodb";
 
+import qs from 'qs';
+
 import gameService from "../service/gameService";
 
 const router = express.Router();
@@ -15,9 +17,10 @@ router.get("/", (req, res) => {
 
 router.get("/list", (req, res) => {
   var query = {};
-  const uid = req.query.uid;
-  const mobile = req.query.mobile;
-  const offset = req.query.offset || settings.page.offset
+  req.query.offset = req.query.offset || settings.page.offset
+  
+  const queryJson = qs.parse(req.query);
+  const { uid, mobile, offset } = queryJson; 
   
   const skip = offset;
   try {

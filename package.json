@@ -46,6 +46,7 @@
     "mongojs": "^2.3.0",
     "normalizr": "^1.0.0",
     "password-hash": "^1.2.2",
+    "qs": "^6.2.0",
     "react": "^15.0.2",
     "react-cookie": "^0.4.5",
     "react-dom": "^15.0.2",

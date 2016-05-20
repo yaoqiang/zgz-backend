@@ -2,7 +2,7 @@ import express from "express"
 
 import { authenticationAccount } from "../filter/authFilter";
 
-
+import qs from 'qs';
 import _ from "lodash";
 import settings from '../const/settings';
 
@@ -18,11 +18,12 @@ router.get("/", (req, res) => {
 
 router.get("/list", (req, res) => {
   var query = {}, userQuery = {};
-  const uid = req.query.uid;
-  const mobile = req.query.mobile;
-  const device = req.query.device;
-  const state = req.query.state;
-  const offset = req.query.offset || settings.page.offset
+  
+  req.query.offset = req.query.offset || settings.page.offset
+  
+  const queryJson = qs.parse(req.query);
+  const { uid, mobile, device, state, offset } = queryJson; 
+  
 
   const skip = offset;
 
