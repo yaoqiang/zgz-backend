@@ -46,11 +46,11 @@ class User extends Component {
     }
 
     componentDidMount() {
-        this.doSearch('', '', 1);
+        this.doSearch('', '', 0);
     }
 
-    doSearch(uid, mobile, pageIndex) {
-        this.props.list(uid, mobile, pageIndex);
+    doSearch(uid, mobile, offset) {
+        this.props.list(uid, mobile, offset);
     }
 
     onKeyPress(event) {
@@ -60,10 +60,10 @@ class User extends Component {
     }
 
     onSearch() {
-        const pageIndex = this.props.pageIndex;
+        const offset = this.props.offset;
         const uid = this.refs.uid.getValue();
         const mobile = this.refs.mobile.getValue();
-        this.doSearch(uid, mobile, pageIndex);
+        this.doSearch(uid, mobile, offset);
     }
 
     onDetail(uid) {
@@ -175,7 +175,7 @@ User.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        pageIndex: state.user.pageIndex || 1,
+        offset: state.user.offset || 0,
         userList: state.user.userList,
         userDetail: state.user.user,
         shopList: state.user.shopList,

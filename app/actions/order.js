@@ -17,11 +17,11 @@ export const UI_ORDER_DETAIL_DIALOG_CLOSE = Symbol('UI_ORDER_DETAIL_DIALOG_CLOSE
 
 
 
-export function list(uid, mobile, state, device, pageIndex) {
+export function list(uid, mobile, state, device, offset) {
   return {
     [CALL_API]: {
       method: 'get',
-      path: '/api/order/list?uid='+uid+'&mobile='+mobile+'&state='+state+'&device='+device+'&pageIndex='+pageIndex,
+      path: '/api/order/list?uid='+uid+'&mobile='+mobile+'&state='+state+'&device='+device+'&offset='+offset,
       successType: ORDER_LIST_SUCCESS,
       errorType: ORDER_LIST_FAIL
     }

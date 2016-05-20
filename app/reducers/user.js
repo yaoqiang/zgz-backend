@@ -5,7 +5,7 @@ import _ from 'lodash'
 
 let defaultState = {
     userList: [],
-    pageIndex: 1,
+    offset: 0,
     user: null,
     shopList: null
 };
@@ -18,7 +18,7 @@ export default function (state = defaultState, action = {}) {
 
             cloned = _.clone(state)
             cloned.userList = action.response.userList;
-            cloned.pageIndex = action.response.pageIndex
+            cloned.offset = action.response.offset
             return cloned;
 
         case ActionType.USER_LIST_FAIL:

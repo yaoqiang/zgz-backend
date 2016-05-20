@@ -17,14 +17,14 @@ router.get("/", (req, res) => {
 });
 
 router.get("/list", (req, res) => {
-  var query = {};
+  var query = {}, userQuery = {};
   const uid = req.query.uid;
   const mobile = req.query.mobile;
   const device = req.query.device;
   const state = req.query.state;
-  const pageIndex = req.query.pageIndex || settings.defaultPageIndex
+  const offset = req.query.offset || settings.page.offset
 
-  const skip = (pageIndex - 1) * settings.pageSize;
+  const skip = offset;
 
   if (device && device !== '') {
     query.device = device;
@@ -35,7 +35,6 @@ router.get("/list", (req, res) => {
   }
 
   new Promise(function (resolve, reject) {
-    var userQuery = {};
     try {
       if (uid && uid !== '') {
         userQuery._id = mongojs.ObjectId(uid);
@@ -63,16 +62,15 @@ router.get("/list", (req, res) => {
   })
     .then(user => new Promise((resolve, reject) => {
       //如果输入了用户条件没有查到, 则返回空数组
-      // if (!user && _.keys(userQuery).length > 0) {
-      //     res.send({ code: 200, orderList: [], total: 0, pageIndex: pageIndex });
-      //     return;
-      // }
+      if (!user && _.keys(userQuery).length > 0) {
+          query.uid = -1;
+      }
 
       if (user) {
         query.uid = user._id.toString();
       }
       
-      db.order.find(query).sort({_id: -1}).limit(settings.pageSize).skip(skip, function (err, docs) {
+      db.order.find(query).sort({_id: -1}).limit(settings.page.limit).skip(skip, function (err, docs) {
         if (err) {
           resolve([]);
           return;
@@ -92,7 +90,7 @@ router.get("/list", (req, res) => {
           return order;
         })
 
-        res.send({ code: 200, orderList: orderList, total: total, pageIndex: pageIndex });
+        res.send({ code: 200, orderList: orderList, total: total, offset: offset, limit:settings.page.limit });
         return;
       })
     }));

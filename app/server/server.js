@@ -147,3 +147,7 @@ server.use((err, req, res, next) => {
 
 console.log(`Server is listening to port: ${port}`);
 server.listen(port);
+
+process.on('uncaughtException', function (err) {
+    console.log('Caught exception: ', err);
+});

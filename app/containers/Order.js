@@ -15,7 +15,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn, TableFooter} from 'material-ui/Table';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -25,6 +25,7 @@ import _ from 'lodash';
 import { bindActionCreators } from 'redux';
 
 import UserDetail from '../components/UserDetail';
+import Pagination from '../components/Pagination';
 
 import * as OrderActions from '../actions/order';
 
@@ -57,14 +58,16 @@ class Order extends Component {
     this.onDetailClose = this.onDetailClose.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
     this.handleDeviceChange = this.handleDeviceChange.bind(this);
+    this.onPageClick = this.onPageClick.bind(this);
+    
   }
 
   componentDidMount() {
-    this.doSearch('', '', '', '', 1);
+    this.doSearch('', '', '', '', 0);
   }
 
-  doSearch(uid, mobile, state, device, pageIndex) {
-    this.props.list(uid, mobile, state == null ? '' : state, device == null ? '' : device, pageIndex);
+  doSearch(uid, mobile, state, device, offset) {
+    this.props.list(uid, mobile, state == null ? '' : state, device == null ? '' : device, offset);
   }
 
   onKeyPress(event) {
@@ -74,10 +77,16 @@ class Order extends Component {
   }
 
   onSearch() {
-    const pageIndex = this.props.pageIndex;
+    const offset = this.props.offset;
     const uid = this.refs.uid.getValue();
     const mobile = this.refs.mobile.getValue();
-    this.doSearch(uid, mobile, this.state.stateValue, this.state.deviceValue, pageIndex);
+    this.doSearch(uid, mobile, this.state.stateValue, this.state.deviceValue, offset);
+  }
+  
+  onPageClick(offset) {
+    const uid = this.refs.uid.getValue();
+    const mobile = this.refs.mobile.getValue();
+    this.doSearch(uid, mobile, this.state.stateValue, this.state.deviceValue, offset);
   }
 
   onDetail(id) {
@@ -99,7 +108,7 @@ class Order extends Component {
 
   render() {
 
-    const { orderList, orderDetail, total } = this.props;
+    const { orderList, orderDetail, total, offset, limit } = this.props;
     const self = this;
 
     return (
@@ -170,6 +179,13 @@ class Order extends Component {
             }
 
           </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableRowColumn colSpan="4">
+                <Pagination offset={offset} total={total} limit={limit} onPageClick={this.onPageClick}/>
+              </TableRowColumn>
+            </TableRow>
+          </TableFooter>
         </Table>
 
       </div>
@@ -183,7 +199,8 @@ Order.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    pageIndex: state.order.pageIndex || 1,
+    offset: state.order.offset || 0,
+    limit: state.order.limit || 15,
     orderList: state.order.orderList,
     total: state.order.total,
     orderDetail: state.order.orderDetail

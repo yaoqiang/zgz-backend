@@ -10,8 +10,10 @@ const settings = {
 
     secret: "zgz_session_secret",
 
-    pageSize: 15,
-    defaultPageIndex: 1
+    page: {
+        limit: 15,
+        offset: 0
+    }
 }
 
 export default settings;

@@ -17,9 +17,9 @@ router.get("/list", (req, res) => {
   var query = {};
   const uid = req.query.uid;
   const mobile = req.query.mobile;
-  const pageIndex = req.query.pageIndex || settings.defaultPageIndex
+  const offset = req.query.offset || settings.page.offset
   
-  const skip = (pageIndex - 1) * settings.pageSize;
+  const skip = offset;
   try {
     if (uid && uid !== '') {
       query._id = mongojs.ObjectId(uid);
@@ -34,7 +34,7 @@ router.get("/list", (req, res) => {
   }
   
   new Promise(function (resolve, reject) {
-    db.user.find(query).limit(settings.pageSize).skip(skip, function (err, docs) {
+    db.user.find(query).limit(settings.page.limit).skip(skip, function (err, docs) {
       if (err) {
         reject(err);
         return;
@@ -59,11 +59,11 @@ router.get("/list", (req, res) => {
           });
         });
         Promise.all(userListPromise).then(function (result) {
-          res.send({ code: 200, userList: result, pageIndex: pageIndex});
+          res.send({ code: 200, userList: result, offset: offset, limit:settings.page.limit});
         })
         return;
       }
-      res.send({ code: 200, userList: [], pageIndex: pageIndex });
+      res.send({ code: 200, userList: [], offset: offset, limit:settings.page.limit });
     }, function (err) {
       if (err) {
         res.send({ code: 500 });
