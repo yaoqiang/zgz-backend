@@ -19,7 +19,7 @@ router.get("/", (req, res) => {
 router.get("/list", (req, res) => {
   var query = {}, userQuery = {};
   
-  req.query.offset = req.query.offset || settings.page.offset
+  req.query.offset = parseInt(req.query.offset) || settings.page.offset
   
   const queryJson = qs.parse(req.query);
   const { uid, mobile, device, state, offset } = queryJson; 
