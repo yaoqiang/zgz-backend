@@ -50,7 +50,7 @@ class ExchangeRecord extends Component {
     this.onSearch = this.onSearch.bind(this);
     this.onDetail = this.onDetail.bind(this);
     this.onDetailClose = this.onDetailClose.bind(this);
-    // this.handleStateChange = this.handleStateChange.bind(this);
+    this.handleStateChange = this.handleStateChange.bind(this);
     this.onPageClick = this.onPageClick.bind(this);
     
   }
@@ -88,7 +88,7 @@ class ExchangeRecord extends Component {
 
 
   onDetailClose() {
-    this.props.closeOrderDetailDialog();
+    this.props.closeExchangeRecordDetailDialog();
   }
 
   handleStateChange(event, index, value) {
@@ -141,7 +141,7 @@ class ExchangeRecord extends Component {
         <Table selectable={false}>
           <TableHeader displaySelectAll={false} displaySelectAll={false} adjustForCheckbox={false}>
             <TableRow>
-              <TableHeaderColumn>ID</TableHeaderColumn>
+              <TableHeaderColumn>用户</TableHeaderColumn>
               <TableHeaderColumn>兑换手机号</TableHeaderColumn>
               <TableHeaderColumn>商品</TableHeaderColumn>
               <TableHeaderColumn>状态</TableHeaderColumn>
@@ -180,7 +180,7 @@ class ExchangeRecord extends Component {
   }
 }
 
-Order.propTypes = {
+ExchangeRecord.propTypes = {
   exchangeRecordList: PropTypes.array
 };
 

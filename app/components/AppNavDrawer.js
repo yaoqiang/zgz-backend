@@ -93,17 +93,17 @@ const AppNavDrawer = React.createClass({
               <ListItem primaryText="兑换记录" value="/exchange/record" key={3.2}/>,
             ]}
           />
-          <ListItem primaryText="活动管理" value="/exchange/list" key={4}/>
+          <ListItem primaryText="活动管理" value="/activity/list" key={4}/>
           <ListItem
             primaryText="游戏管理"
             primaryTogglesNestedList={true}
             key={5}
             nestedItems={[
               <ListItem primaryText="游戏公告发送" value="/game/bbs" key={5.1}/>,
-              <ListItem primaryText="系统邮件维护" value="/exchange/record" key={5.2}/>,
+              <ListItem primaryText="系统邮件维护" value="/game/mail" key={5.2}/>,
               <Divider />,
-              <ListItem primaryText="苹果审核开关" value="/exchange/list" key={5.3}/>,
-              <ListItem primaryText="游戏版本设置" value="/exchange/record" key={5.4}/>,
+              <ListItem primaryText="苹果审核开关" value="/game/apple" key={5.3}/>,
+              <ListItem primaryText="游戏版本设置" value="/game/version" key={5.4}/>,
             ]}
           />
           
@@ -112,11 +112,11 @@ const AppNavDrawer = React.createClass({
             primaryTogglesNestedList={true}
             key={6}
             nestedItems={[
-              <ListItem primaryText="活跃用户" value="/exchange/list" key={6.1}/>,
-              <ListItem primaryText="新增用户" value="/exchange/record" key={6.2}/>,
+              <ListItem primaryText="活跃用户" value="/analysis/list" key={6.1}/>,
+              <ListItem primaryText="新增用户" value="/analysis/record" key={6.2}/>,
               <Divider />,
-              <ListItem primaryText="留存率" value="/exchange/list" key={6.3}/>,
-              <ListItem primaryText="..." value="/exchange/record" key={6.4}/>,
+              <ListItem primaryText="留存率" value="/analysis/list" key={6.3}/>,
+              <ListItem primaryText="..." value="/analysis/record" key={6.4}/>,
             ]}
           />
           
@@ -125,7 +125,7 @@ const AppNavDrawer = React.createClass({
             primaryTogglesNestedList={true}
             key={7}
             nestedItems={[
-              <ListItem primaryText="账号管理" value="/exchange/list" key={7.1}/>,
+              <ListItem primaryText="账号管理" value="/system/list" key={7.1}/>,
             ]}
           />
           
