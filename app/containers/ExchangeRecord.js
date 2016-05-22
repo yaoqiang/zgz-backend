@@ -73,7 +73,7 @@ class ExchangeRecord extends Component {
     const offset = this.props.offset;
     const uid = this.refs.uid.getValue();
     const mobile = this.refs.mobile.getValue();
-    this.doSearch(uid, mobile, this.state.stateValue, offset);
+    this.doSearch(uid, mobile, this.state.stateValue, 0);
   }
   
   onPageClick(offset) {

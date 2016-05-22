@@ -63,7 +63,7 @@ class User extends Component {
         const offset = this.props.offset;
         const uid = this.refs.uid.getValue();
         const mobile = this.refs.mobile.getValue();
-        this.doSearch(uid, mobile, offset);
+        this.doSearch(uid, mobile, 0);
     }
 
     onDetail(uid) {

@@ -80,7 +80,7 @@ class Order extends Component {
     const offset = this.props.offset;
     const uid = this.refs.uid.getValue();
     const mobile = this.refs.mobile.getValue();
-    this.doSearch(uid, mobile, this.state.stateValue, this.state.deviceValue, offset);
+    this.doSearch(uid, mobile, this.state.stateValue, this.state.deviceValue, 0);
   }
   
   onPageClick(offset) {
