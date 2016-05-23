@@ -38,21 +38,21 @@ router.get("/acquisition", (req, res) => {
 
 router.get("/acquisitionLastDay", (req, res) => {
   console.log("/acquisitionLastDay...");
-  const total = db.user.count({ createdAt: { $gt: new Date(moment().add(-1, 'days').format('YYYY-MM-DD')) } }, function (err, dbRes) {
+  const total = db.user.count({ createdAt: { $gt: new Date(moment().add(-1, 'days').format('YYYY-MM-DD')), $lte: new Date(moment().format('YYYY-MM-DD')) } }, function (err, dbRes) {
     res.send({ acquisitionLastDay: dbRes });
   });
 });
 
 router.get("/acquisitionLastWeek", (req, res) => {
   console.log("/acquisitionLastWeek...");
-  const total = db.user.count({ createdAt: { $gt: new Date(moment().add(-1, 'weeks').format('YYYY-MM-DD')) } }, function (err, dbRes) {
+  const total = db.user.count({ createdAt: { $gt: new Date(moment().add(-1, 'weeks').format('YYYY-MM-DD')), $lte: new Date(moment().format('YYYY-MM-DD')) } }, function (err, dbRes) {
     res.send({ acquisitionLastWeek: dbRes });
   });
 });
 
 router.get("/acquisitionLastTwoWeek", (req, res) => {
   console.log("/acquisitionLastTwoWeek...");
-  const total = db.user.count({ createdAt: { $gt: new Date(moment().add(-2, 'weeks').format('YYYY-MM-DD')) } }, function (err, dbRes) {
+  const total = db.user.count({ createdAt: { $gt: new Date(moment().add(-2, 'weeks').format('YYYY-MM-DD')), $lte: new Date(moment().format('YYYY-MM-DD')) } }, function (err, dbRes) {
     res.send({ acquisitionLastTwoWeek: dbRes } );
   });
 });
@@ -60,7 +60,7 @@ router.get("/acquisitionLastTwoWeek", (req, res) => {
 router.get("/acquisitionLastMonth", (req, res) => {
   console.log("/acquisitionLastMonth...");
 
-  const total = db.user.count({ createdAt: { $gt: new Date(moment().add(-1, 'months').format('YYYY-MM-DD')) } }, function (err, dbRes) {
+  const total = db.user.count({ createdAt: { $gt: new Date(moment().add(-1, 'months').format('YYYY-MM-DD')), $lte: new Date(moment().format('YYYY-MM-DD')) } }, function (err, dbRes) {
     res.send({ acquisitionLastMonth: dbRes });
   });
 });
