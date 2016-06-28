@@ -172,7 +172,7 @@ class Order extends Component {
                 return <TableRow key={order.orderSerialNumber}>
                   <TableRowColumn>{order.uid}</TableRowColumn>
                   <TableRowColumn>{order.productId}</TableRowColumn>
-                  <TableRowColumn>{order.state}{'-'}{order.device}</TableRowColumn>
+                  <TableRowColumn>{order.state}{'-'}{order.channel}</TableRowColumn>
                   <TableRowColumn>{new Date(order.createdAt).toLocaleString() }</TableRowColumn>
                 </TableRow>
               })
