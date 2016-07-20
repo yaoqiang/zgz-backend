@@ -148,6 +148,12 @@ router.post("/grant", (req, res) => {
   const gold = req.body.gold;
   const fragment = req.body.fragment;
   const items = req.body.items;
+
+  //奖励记录
+  var record = {uid: uid, type: type, gold: gold, fragment: fragment, items: items, createdAt: new Date()};
+  db.grantRecord.save(record);
+
+
   new Promise((resolve, reject) => {
     if (gold) {
       gameService.addGold({uid: uid, gold: gold, type: type}, (r1) => {
