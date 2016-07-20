@@ -103,7 +103,7 @@ router.get("/:id", (req, res) => {
           }
           else {
             res.send({ code: 200, user: { uid: user._id, mobile: user.mobile, nickName: player.nickName, createdAt: user.createdAt, lastLoginAt: user.lastLoginAt, 
-              winNr: player.winNr, tieNr: player.tieNr, loseNr: player.loseNr, avatar: player.avatar, gold: player.gold,
+              winNr: player.winNr, tieNr: player.tieNr, loseNr: player.loseNr, avatar: player.avatar, gold: player.gold, meetingTimes: player.meetingTimes, 
               rank: player.rank, exp: player.exp, fragment: player.fragment, gender: player.gender, items: player.items, summary: player.summary } });
           }
         })
