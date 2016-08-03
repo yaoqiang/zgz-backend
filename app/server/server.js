@@ -152,6 +152,9 @@ console.log(`Server is listening to port: ${port}`);
 server.listen(port);
 
 
+//start cron
+cron();
+
 process.on('uncaughtException', function (err) {
     console.log('Caught exception: ', err);
 });
