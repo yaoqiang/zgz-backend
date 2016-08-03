@@ -159,7 +159,7 @@ cron.schedule('*/5 * * * * *', function() {
 
   var notice = Math.floor(Math.random() * noticeList.length);
 
-  superAgent['POST']('http://127.0.0.1:4000/api/game/sendBBS')
+  superAgent.post('http://127.0.0.1:4000/api/game/sendBBS')
       .set('Content-Type', 'application/json')
       .send({content: notice})
       .end((err, res)=> {
