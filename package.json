@@ -44,6 +44,7 @@
     "method-override": "^2.3.5",
     "moment": "^2.13.0",
     "mongojs": "^2.3.0",
+    "node-cron": "^1.1.1",
     "normalizr": "^1.0.0",
     "password-hash": "^1.2.2",
     "qs": "^6.2.0",
