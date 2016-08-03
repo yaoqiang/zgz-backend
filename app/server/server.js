@@ -153,8 +153,8 @@ server.listen(port);
 
 //start crontab. 以后有空迁移改造..
 var noticeList = ['亲爱的各位玩家，绿色游戏，禁止作弊，一旦发现立即惩罚。净化游戏，提升游戏乐趣，从我做起！', '本月股神榜重磅开启，下月1号上榜就赢奖！约起来冲起来！', '亲爱的各位玩家，关注微信公众号:大同扎股子，参与苹果商店五星好评活动，立即获得10个大喇叭！'];
-var CronJob = require('cron').CronJob;
-new CronJob('*/5 * * * * *', function() {
+var cron = require('node-cron');
+cron.schedule('*/5 * * * * *', function() {
   console.log('You will see this message every second');
 
   var notice = Math.floor(Math.random() * noticeList.length);
@@ -164,7 +164,7 @@ new CronJob('*/5 * * * * *', function() {
       .send({content: notice})
       .end((err, res)=> {
       });
-}, null, true, 'America/Los_Angeles');
+});
 
 process.on('uncaughtException', function (err) {
     console.log('Caught exception: ', err);
