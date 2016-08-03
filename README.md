@@ -19,5 +19,5 @@ npm run build
 
 npm run start-prod
 or
-nohup npm run start-prod & || use pm2. 
+nohup npm run start-prod & || pm2 start startBackend.sh 
 ``` 
