@@ -21,7 +21,8 @@ import { Provider } from 'react-redux';
 
 import apiRoutes from './routes';
 
-import superAgent from 'superagent'
+import cron from './service/cron';
+
 
 let server = new Express();
 let port = process.env.PORT || 4000;
@@ -150,21 +151,6 @@ server.use((err, req, res, next) => {
 console.log(`Server is listening to port: ${port}`);
 server.listen(port);
 
-
-//start crontab. 以后有空迁移改造..
-var noticeList = ['亲爱的各位玩家，绿色游戏，禁止作弊，一旦发现立即惩罚。净化游戏，提升游戏乐趣，从我做起！', '本月股神榜重磅开启，下月1号上榜就赢奖！约起来冲起来！', '亲爱的各位玩家，关注微信公众号:大同扎股子，参与苹果商店五星好评活动，立即获得10个大喇叭！'];
-var cron = require('node-cron');
-cron.schedule('* */5 * * * *', function() {
-  // console.log('You will see this message every second');
-
-  var noticeIndex = Math.floor(Math.random() * noticeList.length);
-
-  superAgent.post('http://127.0.0.1:4000/api/game/sendBBS')
-      .set('Content-Type', 'application/json')
-      .send({content: noticeList[noticeIndex]})
-      .end((err, res)=> {
-      });
-});
 
 process.on('uncaughtException', function (err) {
     console.log('Caught exception: ', err);
