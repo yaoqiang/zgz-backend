@@ -10,7 +10,7 @@ export default function index () {
         '本月股神榜重磅开启，下月1号上榜就赢奖！大家约起来冲起来！', 
         '亲爱的各位玩家，关注微信公众号:大同扎股子，参与苹果商店五星好评活动，立即获得10个大喇叭！',
         '邀请朋友下载游戏并绑定手机，您可获得额外奖励！让更多的朋友来追忆童年捉红三的乐趣！详情查看个人信息'];
-        
+
     cron.schedule('*/5 * * * *', function () {
 
         // console.log('running a task every five minutes')
@@ -22,6 +22,5 @@ export default function index () {
             .send({content: noticeList[noticeIndex]})
             .end((err, res)=> {
             });
-        });
     });
 }
