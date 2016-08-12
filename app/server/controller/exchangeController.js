@@ -80,7 +80,7 @@ router.get("/record/list", (req, res) => {
       }
 
       if (user) {
-        query.uid = user._id.toString();
+        query.uid = user._id;
       }
       
       db.exchangeRecord.find(query).sort({_id: -1}).limit(settings.page.limit).skip(skip, function (err, docs) {
