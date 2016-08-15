@@ -14,7 +14,7 @@ export default function index () {
         '玩家“打倒一切”成功兑换了20个喇叭, 玩家“我**咪”成功兑换了1元话费'
         ];
 
-    cron.schedule('*/5 * * * *', function () {
+    cron.schedule('*/2 * * * *', function () {
 
         // console.log('running a task every five minutes')
 
