@@ -202,6 +202,8 @@ User.propTypes = {
 function mapStateToProps(state) {
     return {
         offset: state.user.offset || 0,
+        total: state.user.total,
+        limit: state.user.limit || 15,
         userList: state.user.userList,
         userDetail: state.user.user,
         shopList: state.user.shopList,
