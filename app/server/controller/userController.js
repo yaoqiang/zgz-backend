@@ -35,6 +35,10 @@ router.get("/list", (req, res) => {
   if (mobile && mobile !== '') {
     query.mobile = mobile;
   }
+
+  if (nickName && nickName !== '') {
+    query.nickName = new RegExp(nickName, 'i');
+  }
   
   new Promise(function (resolve, reject) {
     db.user.find(query).limit(settings.page.limit).skip(skip, function (err, docs) {

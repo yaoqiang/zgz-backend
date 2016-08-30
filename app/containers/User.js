@@ -41,16 +41,16 @@ class User extends Component {
         this.onDetail = this.onDetail.bind(this);
         this.onDetailClose = this.onDetailClose.bind(this);
         this.onRecharge = this.onRecharge.bind(this);
-
+        this.onPageClick = this.onPageClick.bind(this);
 
     }
 
     componentDidMount() {
-        this.doSearch('', '', 0);
+        this.doSearch('', '', '', 0);
     }
 
-    doSearch(uid, mobile, offset) {
-        this.props.list(uid, mobile, offset);
+    doSearch(uid, mobile, nickName, offset) {
+        this.props.list(uid, mobile, nickName, offset);
     }
 
     onKeyPress(event) {
@@ -63,7 +63,8 @@ class User extends Component {
         const offset = this.props.offset;
         const uid = this.refs.uid.getValue();
         const mobile = this.refs.mobile.getValue();
-        this.doSearch(uid, mobile, 0);
+        const nickName = this.refs.nickName.getValue();
+        this.doSearch(uid, mobile, nickName, 0);
     }
 
     onDetail(uid) {
@@ -87,7 +88,12 @@ class User extends Component {
         this.props.closeUserDetailDialog();
     }
 
-
+    onPageClick(offset) {
+        const uid = this.refs.uid.getValue();
+        const mobile = this.refs.mobile.getValue();
+        const nickName = this.refs.nickName.getValue();
+        this.doSearch(uid, mobile, nickName, offset);
+    }
 
     render() {
 
@@ -110,6 +116,14 @@ class User extends Component {
                     ref="mobile"
                     hintText="手机号"
                     floatingLabelText="手机号"
+                    style={style}
+                    onKeyDown={this.onKeyPress}
+                    type=""/>
+                <br />
+                <TextField
+                    ref="nickName"
+                    hintText="昵称"
+                    floatingLabelText="昵称"
                     style={style}
                     onKeyDown={this.onKeyPress}
                     type=""/>
@@ -153,6 +167,14 @@ class User extends Component {
                         }
 
                     </TableBody>
+
+                    <TableFooter>
+                        <TableRow>
+                        <TableRowColumn colSpan="4">
+                            <Pagination offset={offset} total={total} limit={limit} onPageClick={this.onPageClick}/>
+                        </TableRowColumn>
+                        </TableRow>
+                    </TableFooter>
                 </Table>
 
 
