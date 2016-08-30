@@ -19,6 +19,8 @@ export default function (state = defaultState, action = {}) {
             cloned = _.clone(state)
             cloned.userList = action.response.userList;
             cloned.offset = action.response.offset
+            cloned.total = action.response.total;
+            cloned.limit = action.response.limit;
             return cloned;
 
         case ActionType.USER_LIST_FAIL:
