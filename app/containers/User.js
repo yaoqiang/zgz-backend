@@ -24,6 +24,8 @@ import { bindActionCreators } from 'redux';
 
 import UserDetail from '../components/UserDetail';
 
+import Pagination from '../components/Pagination';
+
 import * as UserActions from '../actions/user';
 
 
