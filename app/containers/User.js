@@ -99,7 +99,7 @@ class User extends Component {
 
     render() {
 
-        const { userList, userDetail } = this.props;
+        const { userList, userDetail, total, offset, limit } = this.props;
         const self = this;
 
         return (
@@ -132,7 +132,9 @@ class User extends Component {
                 <RaisedButton label="搜索" primary style={style} onTouchTap={this.onSearch} />
 
 
-                <br /><br />
+                <br />
+                共{total}条数据
+                <br />
 
                 <Table selectable={false}>
                     <TableHeader displaySelectAll={false} adjustForCheckbox={false}>

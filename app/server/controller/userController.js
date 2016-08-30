@@ -66,11 +66,18 @@ router.get("/list", (req, res) => {
           });
         });
         Promise.all(userListPromise).then(function (result) {
-          res.send({ code: 200, userList: result, offset: offset, limit:settings.page.limit});
+          db.user.count(query, function (err, total) {
+            if (err) {
+              reject(err);
+              return;
+            }
+            res.send({ code: 200, userList: result, offset: offset, total: total, limit:settings.page.limit});
+          })
+          
         })
         return;
       }
-      res.send({ code: 200, userList: [], offset: offset, limit:settings.page.limit });
+      res.send({ code: 200, userList: [], offset: offset, total: 0, limit:settings.page.limit });
     }, function (err) {
       if (err) {
         res.send({ code: 500 });
