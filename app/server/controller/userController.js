@@ -36,18 +36,39 @@ router.get("/list", (req, res) => {
     query.mobile = mobile;
   }
 
-  if (nickName && nickName !== '') {
-    query.nickName = new RegExp(nickName, 'i');
-  }
   
   new Promise(function (resolve, reject) {
-    db.user.find(query).limit(settings.page.limit).skip(skip, function (err, docs) {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(docs);
-    })
+
+    //如果输入了昵称，先查询player，再回到user
+    if (nickName && nickName !== '') {
+      db.player.find({nickName: new RegExp(nickName, 'i')}, function (err, docs) {
+        if (err) {
+            reject(err);
+            return;
+          }
+          var getUserPromise = _.map(docs, function(p) {
+            return new Promise(function (resolve, reject) {
+                db.user.findOne({_id: p.uid}, function(err, u) {
+                  resolve(u);
+                })
+            });
+          })
+
+          Promise.all(getUserPromise).then(function(result) {
+            resolve(result);
+          })
+        })
+    }
+    else {
+      db.user.find(query).limit(settings.page.limit).skip(skip, function (err, docs) {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(docs);
+      })
+    }
+    
   })
     .then(function (userList) {
       if (userList && userList.length > 0) {
