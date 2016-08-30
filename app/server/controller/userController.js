@@ -20,7 +20,7 @@ router.get("/list", (req, res) => {
   req.query.offset = parseInt(req.query.offset) || settings.page.offset
   
   const queryJson = qs.parse(req.query);
-  const { uid, mobile, offset } = queryJson; 
+  const { uid, mobile, nickName, offset } = queryJson; 
   
   const skip = offset;
   try {
