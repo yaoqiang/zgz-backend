@@ -20,7 +20,7 @@ router.get("/list", (req, res) => {
   req.query.offset = parseInt(req.query.offset) || settings.page.offset
   
   const queryJson = qs.parse(req.query);
-  const { uid, mobile, offset } = queryJson; 
+  const { uid, mobile, nickName, offset } = queryJson; 
   
   const skip = offset;
   try {
@@ -35,15 +35,40 @@ router.get("/list", (req, res) => {
   if (mobile && mobile !== '') {
     query.mobile = mobile;
   }
+
   
   new Promise(function (resolve, reject) {
-    db.user.find(query).limit(settings.page.limit).skip(skip, function (err, docs) {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(docs);
-    })
+
+    //如果输入了昵称，先查询player，再回到user
+    if (nickName && nickName !== '') {
+      db.player.find({nickName: new RegExp(nickName, 'i')}, function (err, docs) {
+        if (err) {
+            reject(err);
+            return;
+          }
+          var getUserPromise = _.map(docs, function(p) {
+            return new Promise(function (resolve, reject) {
+                db.user.findOne({_id: p.uid}, function(err, u) {
+                  resolve(u);
+                })
+            });
+          })
+
+          Promise.all(getUserPromise).then(function(result) {
+            resolve(result);
+          })
+        })
+    }
+    else {
+      db.user.find(query).limit(settings.page.limit).skip(skip, function (err, docs) {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(docs);
+      })
+    }
+    
   })
     .then(function (userList) {
       if (userList && userList.length > 0) {
@@ -62,11 +87,18 @@ router.get("/list", (req, res) => {
           });
         });
         Promise.all(userListPromise).then(function (result) {
-          res.send({ code: 200, userList: result, offset: offset, limit:settings.page.limit});
+          db.user.count(query, function (err, total) {
+            if (err) {
+              reject(err);
+              return;
+            }
+            res.send({ code: 200, userList: result, offset: offset, total: total, limit:settings.page.limit});
+          })
+          
         })
         return;
       }
-      res.send({ code: 200, userList: [], offset: offset, limit:settings.page.limit });
+      res.send({ code: 200, userList: [], offset: offset, total: 0, limit:settings.page.limit });
     }, function (err) {
       if (err) {
         res.send({ code: 500 });

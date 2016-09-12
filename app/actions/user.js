@@ -59,11 +59,11 @@ export const UI_GRANT_ALERT_CLOSE = Symbol('UI_GRANT_ALERT_CLOSE')
 
 
 
-export function list(uid, mobile, offset) {
+export function list(uid, mobile, nickName, offset) {
   return {
     [CALL_API]: {
       method: 'get',
-      path: '/api/user/list?uid='+uid+'&mobile='+mobile+'&offset='+offset,
+      path: '/api/user/list?uid='+uid+'&mobile='+mobile+'&nickName='+nickName+'&offset='+offset,
       successType: USER_LIST_SUCCESS,
       errorType: USER_LIST_FAIL
     }

@@ -13,7 +13,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn, TableFooter} from 'material-ui/Table';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -23,6 +23,8 @@ import _ from 'lodash';
 import { bindActionCreators } from 'redux';
 
 import UserDetail from '../components/UserDetail';
+
+import Pagination from '../components/Pagination';
 
 import * as UserActions from '../actions/user';
 
@@ -41,16 +43,16 @@ class User extends Component {
         this.onDetail = this.onDetail.bind(this);
         this.onDetailClose = this.onDetailClose.bind(this);
         this.onRecharge = this.onRecharge.bind(this);
-
+        this.onPageClick = this.onPageClick.bind(this);
 
     }
 
     componentDidMount() {
-        this.doSearch('', '', 0);
+        this.doSearch('', '', '', 0);
     }
 
-    doSearch(uid, mobile, offset) {
-        this.props.list(uid, mobile, offset);
+    doSearch(uid, mobile, nickName, offset) {
+        this.props.list(uid, mobile, nickName, offset);
     }
 
     onKeyPress(event) {
@@ -63,7 +65,8 @@ class User extends Component {
         const offset = this.props.offset;
         const uid = this.refs.uid.getValue();
         const mobile = this.refs.mobile.getValue();
-        this.doSearch(uid, mobile, 0);
+        const nickName = this.refs.nickName.getValue();
+        this.doSearch(uid, mobile, nickName, 0);
     }
 
     onDetail(uid) {
@@ -87,11 +90,16 @@ class User extends Component {
         this.props.closeUserDetailDialog();
     }
 
-
+    onPageClick(offset) {
+        const uid = this.refs.uid.getValue();
+        const mobile = this.refs.mobile.getValue();
+        const nickName = this.refs.nickName.getValue();
+        this.doSearch(uid, mobile, nickName, offset);
+    }
 
     render() {
 
-        const { userList, userDetail } = this.props;
+        const { userList, userDetail, total, offset, limit } = this.props;
         const self = this;
 
         return (
@@ -113,10 +121,20 @@ class User extends Component {
                     style={style}
                     onKeyDown={this.onKeyPress}
                     type=""/>
+                <br />
+                <TextField
+                    ref="nickName"
+                    hintText="昵称"
+                    floatingLabelText="昵称"
+                    style={style}
+                    onKeyDown={this.onKeyPress}
+                    type=""/>
                 <RaisedButton label="搜索" primary style={style} onTouchTap={this.onSearch} />
 
 
-                <br /><br />
+                <br />
+                共{total}条数据
+                <br />
 
                 <Table selectable={false}>
                     <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
@@ -153,6 +171,14 @@ class User extends Component {
                         }
 
                     </TableBody>
+
+                    <TableFooter>
+                        <TableRow>
+                        <TableRowColumn colSpan="4">
+                            <Pagination offset={offset} total={total} limit={limit} onPageClick={this.onPageClick}/>
+                        </TableRowColumn>
+                        </TableRow>
+                    </TableFooter>
                 </Table>
 
 
@@ -176,6 +202,8 @@ User.propTypes = {
 function mapStateToProps(state) {
     return {
         offset: state.user.offset || 0,
+        total: state.user.total,
+        limit: state.user.limit || 15,
         userList: state.user.userList,
         userDetail: state.user.user,
         shopList: state.user.shopList,
