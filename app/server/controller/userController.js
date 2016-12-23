@@ -60,7 +60,7 @@ router.get("/list", (req, res) => {
         })
     }
     else {
-      db.user.find(query).limit(settings.page.limit).skip(skip, function (err, docs) {
+      db.user.find(query).limit(settings.page.limit).skip(skip).sort({_id: 1}, function (err, docs) {
         if (err) {
           reject(err);
           return;
