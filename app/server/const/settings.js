@@ -5,7 +5,7 @@ const settings = {
     // mongodbUrlDev: 'mongodb://101.200.128:27017/zgz',
     // gameApiUrlDev: 'http://101.200.128.237:1337/api/game',
 
-    mongodbUrl: 'mongodb://101.201.154.38:27017/zgz',
+    mongodbUrl: 'mongodb://10.45.145.158:27017/zgz',
     gameApiUrl: 'http://101.201.154.38:1337/api/game',
 
     secret: "zgz_session_secret",
